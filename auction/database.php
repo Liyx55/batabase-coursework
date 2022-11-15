@@ -1,6 +1,11 @@
 <?php
     //Create database connection
-    $conn = mysqli_connect("localhost","root","root","bidding2"); // Database configuration
+    $Server="localhost";
+     $username="root";
+     $psrd="";
+     $dbname = "auction";
+     $conn= mysqli_connect($Server,$username,$psrd,$dbname);
+    // Database configuration
     //Check database connection 
     if ($conn -> connect_errno) {
         echo "Failed to connect to MySQL: " . $conn -> connect_error;

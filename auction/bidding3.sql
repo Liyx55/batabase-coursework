@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- 主机： 127.0.0.1
--- 生成日期： 2022-11-15 18:34:41
--- 服务器版本： 10.4.11-MariaDB
--- PHP 版本： 7.4.3
+-- 主机： localhost
+-- 生成日期： 2022-11-15 19:45:26
+-- 服务器版本： 10.4.21-MariaDB
+-- PHP 版本： 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,8 +18,40 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `bidding2`
+-- 数据库： `test1`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `bidding`
+--
+
+CREATE TABLE `bidding` (
+  `itemid` int(11) NOT NULL,
+  `itemname` varchar(30) NOT NULL,
+  `category` varchar(30) NOT NULL,
+  `startingprice` int(30) NOT NULL,
+  `reserveprice` int(30) NOT NULL,
+  `currentprice` int(30) NOT NULL,
+  `endtime` datetime NOT NULL,
+  `description` varchar(30) NOT NULL,
+  `userid` int(20) DEFAULT NULL,
+  `buyer` int(20) DEFAULT NULL,
+  `viewnum` int(200) NOT NULL DEFAULT 0,
+  `state` int(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- 转存表中的数据 `bidding`
+--
+
+INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reserveprice`, `currentprice`, `endtime`, `description`, `userid`, `buyer`, `viewnum`, `state`) VALUES
+(2, 'dsvb', '2', 34, 345, 34, '2022-11-05 17:49:00', 'dfsb', 0, 0, 0, 0),
+(3, 'asdfg', '3', 345, 2345, 345, '2022-11-04 17:59:00', 'dfab', NULL, NULL, 0, 0),
+(4, 'ds,amgn', '2', 324, 325, 324, '2022-11-04 18:01:00', 'dmsgnlk', NULL, NULL, 0, 0),
+(5, 'ds,mangl', '2', 324, 3425, 324, '2022-11-02 18:04:00', 'dsljfgn', NULL, NULL, 0, 0),
+(6, 'klfdgnkl', '2', 435, 435, 435, '2022-11-09 18:32:00', 'lnsglj', NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -112,53 +143,6 @@ INSERT INTO `role` (`id`, `name`, `permissions`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `selling`
---
-
-CREATE TABLE `selling` (
-  `itemid` int(11) NOT NULL,
-  `itemname` varchar(100) NOT NULL,
-  `category` varchar(30) NOT NULL,
-  `startingprice` int(11) NOT NULL,
-  `reserveprice` int(11) NOT NULL,
-  `currentprice` int(11) NOT NULL,
-  `postdate` datetime NOT NULL,
-  `biddingenddate` datetime NOT NULL,
-  `userid` int(11) NOT NULL,
-  `bidderid` int(30) NOT NULL,
-  `description` varchar(5000) NOT NULL,
-  `viewing` int(20) NOT NULL,
-  `confirm` int(1) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- 转存表中的数据 `selling`
---
-
-INSERT INTO `selling` (`itemid`, `itemname`, `category`, `startingprice`, `reserveprice`, `currentprice`, `postdate`, `biddingenddate`, `userid`, `bidderid`, `description`, `viewing`, `confirm`) VALUES
-(17, 'harry potter', 'Literature', 50, 70, 90, '2022-11-11 00:05:59', '2022-11-16 09:00:00', 4, 33, 'Goodbook', 42, 0),
-(16, 'perfume', 'Beauty', 999, 999, 999, '2022-11-12 00:02:56', '2022-11-15 09:00:00', 4, 0, 'this is a perfume', 2, 0),
-(4, 'cloth 1', 'Clothes', 99, 9999999, 120, '2022-11-13 21:32:51', '2022-11-14 09:00:00', 4, 33, 'Idc', 11, 0),
-(5, 'clothes 2', 'Clothes', 99, 109, 170, '2022-11-10 21:33:19', '2022-11-16 09:00:00', 4, 33, 'a cloth', 10, 0),
-(6, 'alienware m15', 'Electronic device', 2000, 3000, 2300, '2022-11-07 21:34:54', '2022-11-17 09:00:00', 4, 31, 'Dell Gaming laptops and PCs are engineered with sharper graphics and faster processors for superior visual gameplay thatÂ´s intense at every level.', 25, 0),
-(7, 'chicken', 'Food', 20, 30, 20, '2022-11-08 21:36:33', '2022-11-15 09:00:00', 4, 0, 'super chicken meat', 0, 0),
-(8, 'cake', 'Food', 6000, 9000, 6000, '2022-11-09 21:37:03', '2022-11-18 09:00:00', 4, 0, 'magic cake', 0, 0),
-(9, 'fork', 'Kitchen', 5, 10, 5, '2022-11-08 21:37:29', '2022-11-19 09:00:00', 4, 0, 'nice fork', 0, 0),
-(10, 'foil paper', 'Kitchen', 3, 4, 3, '2022-11-06 21:38:11', '2022-11-20 09:00:00', 4, 0, 'nice foil paper', 1, 0),
-(11, 'sofa', 'Furniture', 5, 20, 5, '2022-11-05 21:38:36', '2022-11-21 09:00:00', 4, 0, 'I hate sofa', 0, 0),
-(12, 'ed shreen music album (signed)', 'Music', 50, 60, 80, '2022-11-05 21:39:15', '2022-11-18 09:00:00', 4, 1, 'everyone loves him', 2, 0),
-(13, 'pen', 'Stationery', 425, 999, 498, '2022-11-04 21:39:51', '2022-11-21 09:00:00', 4, 1, 'I have a pen. do you have a pineapple?', 2, 0),
-(14, 'basketball', 'Sports', 50, 60, 50, '2022-11-01 21:41:39', '2022-11-17 09:00:00', 4, 0, 'ball', 0, 0),
-(15, 'iphone 5', 'Electronic device', 500, 600, 500, '2022-11-03 21:58:36', '2022-11-19 09:00:00', 1, 0, 'we are old school', 0, 0),
-(20, 'hololens', 'Electronic device', 300, 400, 600, '2022-11-02 02:13:03', '2022-11-22 11:00:00', 31, 30, 'dsssdsd', 2, 0),
-(21, 'ps4', 'Electronic device', 599, 6000, 900, '2022-11-04 02:16:15', '2022-11-23 09:00:00', 31, 30, 'PlayStation 4 (PS4) is a line of eighth-generation home video game consoles developed by Sony Interactive Entertainment. Announced as the successor to the PlayStation 3 during a press conference on February 20, 2013, it was launched on November 15 in North America, November 29 in Europe, South ', 3, 0),
-(19, 'macbook air', 'Electronic device', 8000, 79999, 8000, '2022-11-03 02:00:19', '2022-11-24 09:00:00', 31, 0, 'MacBook Air lasts up to an incredible 12 hours between charges. So from your morning coffee till your evening commute, you can work unplugged. When itâ€™s time to kick back and relax, you can get up to 12 hours of iTunes movie playback. And with up to 30 days of standby time, you can go away for weeks and pick up right where you left off.*', 8, 0),
-(22, 'oculus rift', 'Electronic device', 560, 697, 1000, '2022-11-05 02:35:40', '2022-11-25 09:00:00', 1, 31, 'The Oculus Rift is a virtual reality system that completely immerses you inside virtual worlds. Oculus Rift is available now.', 5, 0),
-(23, 'iphone14', 'Electronic device', 1000, 1300, 1000, '2022-11-13 17:15:42', '2022-11-20 09:00:00', 33, 0, 'newest iphone', 0, 0);
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `userinfo`
 --
 
@@ -198,16 +182,16 @@ INSERT INTO `userinfo` (`userid`, `username`, `password`, `fullname`, `email`, `
 --
 
 --
+-- 表的索引 `bidding`
+--
+ALTER TABLE `bidding`
+  ADD PRIMARY KEY (`itemid`);
+
+--
 -- 表的索引 `biddinghistory`
 --
 ALTER TABLE `biddinghistory`
   ADD PRIMARY KEY (`biddingdate`);
-
---
--- 表的索引 `selling`
---
-ALTER TABLE `selling`
-  ADD PRIMARY KEY (`itemid`);
 
 --
 -- 表的索引 `userinfo`
@@ -221,10 +205,10 @@ ALTER TABLE `userinfo`
 --
 
 --
--- 使用表AUTO_INCREMENT `selling`
+-- 使用表AUTO_INCREMENT `bidding`
 --
-ALTER TABLE `selling`
-  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+ALTER TABLE `bidding`
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用表AUTO_INCREMENT `userinfo`
