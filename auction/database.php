@@ -2,8 +2,8 @@
     //Create database connection
     $Server="localhost";
      $username="root";
-     $psrd="";
-     $dbname = "auction";
+     $psrd="root";
+     $dbname = "bidding2";
      $conn= mysqli_connect($Server,$username,$psrd,$dbname);
     // Database configuration
     //Check database connection 

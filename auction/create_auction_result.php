@@ -8,11 +8,7 @@
             already does this). */
             ?>
 <?php
-$Server="localhost";
-     $username="root";
-     $psrd="";
-     $dbname = "test1";
-     $connection= mysqli_connect($Server,$username,$psrd,$dbname) or die("数据库连接错误");
+include_once("database.php");
 ?>
 
 <?php
@@ -31,22 +27,22 @@ $Server="localhost";
 
 /* TODO #3: If everything looks good, make the appropriate call to insert
             data into the database. */
-            $name = mysqli_real_escape_string($connection, $_POST['auctionTitle']);
-            $d = mysqli_real_escape_string($connection, $_POST['auctionDetails']);
-            $sp = mysqli_real_escape_string($connection, $_POST['auctionStartPrice']);
-            $rp = mysqli_real_escape_string($connection, $_POST['auctionReservePrice']);
-            $et = mysqli_real_escape_string($connection, $_POST['auctionEndDate']); 
-            $category = mysqli_real_escape_string($connection, $_POST['auctionCategory']);
+            $name = mysqli_real_escape_string($conn, $_POST['auctionTitle']);
+            $d = mysqli_real_escape_string($conn, $_POST['auctionDetails']);
+            $sp = mysqli_real_escape_string($conn, $_POST['auctionStartPrice']);
+            $rp = mysqli_real_escape_string($conn, $_POST['auctionReservePrice']);
+            $et = mysqli_real_escape_string($conn, $_POST['auctionEndDate']); 
+            $category = mysqli_real_escape_string($conn, $_POST['auctionCategory']);
     $query = "INSERT INTO bidding(itemname,category,startingprice,reserveprice,currentprice,endtime,description)
            VALUES ('$name','$category','$sp','$rp','$sp','$et','$d');";
-    $result = mysqli_query($connection,$query)
+    $result = mysqli_query($conn,$query)
            or die('Error making saveToDatabase query');
-    mysqli_close($connection);
+    mysqli_close($conn);
             }
 
 
 // If all is successful, let user know.
-echo('<div class="text-center">Auction successfully created! <a href="FIXME">View your new listing.</a></div>');
+echo('<div class="text-center">Auction successfully created! <a href="mybids.php">View your new listing.</a></div>');
 
 ?>
 
