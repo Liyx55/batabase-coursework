@@ -4,10 +4,14 @@
 
 <?php
 include_once("database.php");
-            session_start(); //Start a session
-            $userId =  $_SESSION['UserId'];
-
-              if( empty($_POST['auctionTitle']) || empty($_POST['auctionCategory'])|| empty($_POST['auctionStartPrice'])|| empty($_POST['auctionEndDate']) ) {
+           session_start();
+           $userId =  $_SESSION['UserId'];
+           if($userId == null || $userId == ' '){
+            echo('<div class="text-center">Please Login!</div>');
+            // Redirect to index after 5 seconds
+            header("refresh:5;url=login.php"); 
+           }
+           elseif( empty($_POST['auctionTitle']) || empty($_POST['auctionCategory'])|| empty($_POST['auctionStartPrice'])|| empty($_POST['auctionEndDate']) ) {
                      echo('<div class="text-center">Missing information. Please try again</div>');
         // Redirect to index after 5 seconds
                      header("refresh:5;url=create_auction.php");     
@@ -32,10 +36,12 @@ include_once("database.php");
            VALUES ('$userId','$name','$category','$startprice','$reserveprice','$startprice','$endtime','$description');";
         $result = mysqli_query($conn,$query)
            or die('Error making saveToDatabase query');
+         // upload photo(test)
+              $itemid=mysqli_insert_id($connection);
+              $uploaddir='./photo/'.$itemid.'.jpg';
+              move_uploaded_file($_FILES['photofile']['tmp_name'],$uploaddir);
         mysqli_close($conn);
             
-
-
 // If all is successful, let user know.
 echo('<div class="text-center">Auction successfully created! <a href="mybids.php">View your new listing.</a></div>');
 }

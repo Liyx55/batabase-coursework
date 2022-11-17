@@ -33,6 +33,12 @@
           </div>
         </div>
         <div class="form-group row">
+          <label for="Photo" class="col-sm-2 col-form-label text-right">Upload Photo</label>
+          <div class="col-sm-10">
+            <input input type='file' name='photofile'>
+          </div>
+        </div>
+        <div class="form-group row">
           <label for="auctionDetails" class="col-sm-2 col-form-label text-right">Details</label>
           <div class="col-sm-10">
             <textarea class="form-control" id="auctionDetails" name="auctionDetails" rows="4"></textarea>
