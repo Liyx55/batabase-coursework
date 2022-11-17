@@ -1,18 +1,23 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
 
+
 <?php
-  // Get info from the URL:
-  $item_id = $_GET['item_id'];
+  include 'database.php';
+  $item_id = $_GET['item_id'];// Get info from the URL:
+  $user_id = $_SESSION['UserId'];
 
   // TODO: Use item_id to make a query to the database.
-
-  // DELETEME: For now, using placeholder data.
-  $title = "Placeholder title";
-  $description = "Description blah blah blah";
-  $current_price = 30.50;
-  $num_bids = 1;
-  $end_time = new DateTime('2022-11-20T00:00:00');
+  $itemsql = "SELECT * FROM `Item` WHERE ItemId = $item_id";
+  $itemresult = $conn->query($itemsql);
+  while($row = $itemresult->fetch_assoc()) {
+    $title = $row['itemname'];
+    $item_user = $row['userid'];
+    $description = $row['description'];
+    $category = $row['category'];
+    $current_price = $row['currentprice'];
+    $end_time = new DateTime($row['endtime']);
+  };
 
   // TODO: Note: Auctions that have ended may pull a different set of data,
   //       like whether the auction ended in a sale or was cancelled due

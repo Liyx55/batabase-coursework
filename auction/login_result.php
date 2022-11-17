@@ -10,6 +10,7 @@ $_SESSION['logged_in'] = true;
 $_SESSION['username'] = "test";
 $_SESSION['account_type'] = "buyer";
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
   {
     $email = mysqli_real_escape_string($conn,$_POST['Email']); 

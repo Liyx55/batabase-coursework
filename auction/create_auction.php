@@ -44,9 +44,12 @@
           <div class="col-sm-10">
             <select class="form-control" id="auctionCategory" name="auctionCategory">
               <option selected></option>
-              <option value="1">food</option>
-              <option value="2">animal</option>
-              <option value="3">book</option>
+              <option value="appliances">appliances</option>
+              <option value="beauty">beauty</option>
+              <option value="colthing&accessories">colthing&accessories</option>
+              <option value="grocery&food">grocery&food</option>
+              <option value="home&kitchen">home&kitchen</option>
+              <option value="others">others</option>
             </select>
             <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
           </div>
