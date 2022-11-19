@@ -4,16 +4,17 @@
 
 <?php
   include 'database.php';
-  $item_id = $_GET['item_id'];// Get info from the URL:
-  $user_id = $_SESSION['UserId'];
+  $item_id = $_GET['itemid'];// Get info from the URL:
+  $user_id = $_SESSION['userid'];
 
   // TODO: Use item_id to make a query to the database.
-  $itemsql = "SELECT * FROM `Item` WHERE ItemId = $item_id";
+  $itemsql = "SELECT * FROM 'bidding' WHERE itemid = $item_id";
   $itemresult = $conn->query($itemsql);
   while($row = $itemresult->fetch_assoc()) {
     $title = $row['itemname'];
     $item_user = $row['userid'];
     $description = $row['description'];
+    $state = $row['state'];
     $category = $row['category'];
     $current_price = $row['currentprice'];
     $end_time = new DateTime($row['endtime']);
@@ -74,14 +75,35 @@
   <div class="col-sm-4"> <!-- Right col with bidding info -->
 
     <p>
-<?php if ($now > $end_time): ?>
-     This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
-     <!-- TODO: Print the result of the auction here? -->
-<?php else: ?>
-     Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
-    <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
+      <?php if ($now > $end_time): ?>
+          This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
+          <!-- TODO: Print the result of the auction here? -->
+      <?php else: ?>
+          Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
+          <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
+          <?php 
+                // bidding history 
+                if($current_price!=NULL){
+                  session_start();
+                  $_SESSION['isbid'] = "1";
+                  echo ('£'.$current_price.'');
+                }else{
+                  session_start();
+                  $_SESSION['isbid'] = "0";
+                  echo "No Bid Yet!";
+                }
+              ?>
+
 
     <!-- Bidding form -->
+    <?php 
+        include 'database.php'; //Connect to the database
+        session_start();
+        $_SESSION['itemid'] = $item_id;
+      ?>
+    <!-- Check if current user is the seller -->
+    <?php if ($item_user!=$user_id):?>
+
     <form method="POST" action="place_bid.php">
       <div class="input-group">
         <div class="input-group-prepend">
@@ -91,13 +113,35 @@
       </div>
       <button type="submit" class="btn btn-primary form-control">Place bid</button>
     </form>
-<?php endif ?>
-
+    <?php endif ?>
+    <?php $conn->close();?>
   
   </div> <!-- End of right col with bidding info -->
 
 </div> <!-- End of row #2 -->
 
+<div>
+        <p>Bid History:</p>
+        <!-- get bidrecord data and print in a table -->
+        <table class="table table-striped" style='text-align:center'>
+          <tr>
+            <th>Bid Amount</th>
+            <th>Bid Date & Time</th>
+          </tr>
+          <?php 
+            include 'database.php'; 
+            //Query to get data from BidRecord table depend on item_id order by the price from highest to lowest
+            $bidhistory = "SELECT biddingprice, biddingdate FROM biddinghistory WHERE itemid =  $item_id ORDER BY biddingprice DESC";
+            $bidresult = $conn->query($bidhistory); 
+            while($row = $bidresult->fetch_assoc()) { ?>
+            <tr>
+              <td><?php echo $row['BidPrice']?></td>
+              <td><?php echo $row['BidDateTime']?></td>
+            </tr>
+          <?php }$conn->close();?>
+        </table>
+      </div>
+    <?php endif ?>
 
 
 <?php include_once("footer.php")?>

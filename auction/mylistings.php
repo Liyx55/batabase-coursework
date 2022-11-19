@@ -1,5 +1,9 @@
-<?php include_once("header.php")?>
-<?php require("utilities.php")?>
+<?php 
+include_once("header.php");
+require("utilities.php");
+include('database.php'); 
+?>
+
 
 <div class="container">
 
@@ -14,10 +18,34 @@
   
   
   // TODO: Check user's credentials (cookie/session).
-  
-  // TODO: Perform a query to pull up their auctions.
-  
+  $userId =  $_SESSION['UserId'];
+           if($userId == null || $userId == ' '){
+            echo('<div class="text-center">Please Login!</div>');
+            // Redirect to index after 5 seconds
+            header("refresh:5;url=login.php"); 
+           }else{
+            // TODO: Perform a query to pull up their auctions.
+              
+                session_start(); //Start a session 
+                $userId =  $_SESSION['UserId']; 
+                $sql = "SELECT itemid, itemname, 'description', 'state', category, currentprice, endtime FROM bidding where userid = $userId;";  
+                $result = mysqli_query($conn, $sql);
+                if ($result->num_rows > 0){
+                  while($row = mysqli_fetch_assoc($result)) {
+                    $item_id = $row['itemid'];
+                    $title = $row['itemname'];
+                    $desc = $row['description'];
+                    $price = $row['currentprice'];
+                    $end_time = new DateTime($row['endtime']);
+                    // Print out item details using the print_mylisting_li function defined in utilities.php
+                    print_mylisting_li($item_id, $title, $desc, $price, $end_time, $time_remaining);
+                    }
+                    }
+                    
+
+                  }
   // TODO: Loop through results and print them out as list items.
+  
   
 ?>
 
