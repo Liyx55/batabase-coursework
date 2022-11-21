@@ -17,20 +17,8 @@ include_once("database.php");
                      header("refresh:5;url=create_auction.php");     
             }
             else{
-              // upload photo(test)
-              $itemid=mysqli_insert_id($conn);
-              //var_dump($_FILES);
-              $imagname = $_FILES['photofile']['name'];
-              $tmp = $_FILES['photofile']['tmp_name'];
-              $filepath = 'itemphoto/';
-              move_uploaded_file($tmp,$filepath.$imagname.".png");
-              //if( move_uploaded_file($tmp,$filepath.$imagname.".png")){
-              //  echo"success";
-              //}else{
-              //  echo "fail";
-              //}
-            
-                
+              
+              
             session_start(); //Start a session
             $userId =  $_SESSION['UserId'];  
             $name = mysqli_real_escape_string($conn, $_POST['auctionTitle']);
@@ -49,10 +37,20 @@ include_once("database.php");
            VALUES ('$userId','$name','$category','$startprice','$reserveprice','$startprice','$endtime','$detail');";
         $result = mysqli_query($conn,$query)
            or die('Error making saveToDatabase query');
+           // upload photo(test)
+           $itemid=mysqli_insert_id($conn);
+           //var_dump($_FILES);
+           $uploaddir='itemphoto/'.$itemid.'.jpg';
+                    
+           if(move_uploaded_file($_FILES['photofile']['tmp_name'],$uploaddir) ){
+             echo"success $itemid";
+           }else{
+             echo 'fail';
+           }
         mysqli_close($conn);
             
 // If all is successful, let user know.
-echo('<div class="text-center">Auction successfully created! <a href="mybids.php">View your new listing.</a></div>');
+echo('<div class="text-center">Auction successfully created! <a href="mylistings.php">View your new listing.</a></div>');
 }
 ?>
 
