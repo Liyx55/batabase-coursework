@@ -10,7 +10,6 @@ $_SESSION['logged_in'] = true;
 $_SESSION['username'] = "test";
 $_SESSION['account_type'] = "buyer";
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
   {
     $email = mysqli_real_escape_string($conn,$_POST['Email']); 
@@ -31,15 +30,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
       $userId = current($conn->query("SELECT userid FROM userinfo WHERE Email = '$email'")->fetch_assoc());
       $_SESSION['UserId'] = $userId; 
       header("refresh:0.5;url= browse.php"); //Auto refresh to browse.php
+      echo '<script>alert("You are now logged in! You will be redirected shortly.")</script>';
     }else { //If no user found
       echo '<script>alert("Wrong username/password combination")</script>';
       $_SESSION['logged_in'] = false; //Set session variable logged_in as false, so user stay logged out and can't access content of the rest of the site
       header("refresh:0.5; url=login.php"); //Auto refresh back to login.php
     }                   
   }
-echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
+
 
 // Redirect to index after 5 seconds
-header("refresh:5;url=index.php");
+header("refresh:0.5;url=index.php");
 $conn->close();
 ?>

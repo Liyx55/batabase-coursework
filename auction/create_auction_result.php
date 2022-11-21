@@ -52,7 +52,7 @@ include_once("database.php");
         mysqli_close($conn);
             
 // If all is successful, let user know.
-echo('<div class="text-center">Auction successfully created! <a href="mybids.php">View your new listing.</a></div>');
+echo('<div class="text-center">Auction successfully created! <a href="mylistings.php">View your new listing.</a></div>');
 }
 ?>
 

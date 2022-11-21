@@ -1,6 +1,6 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
-
+<?php session_start()?>
 
 <?php
   include 'database.php';
@@ -9,8 +9,8 @@
 
   // TODO: Use item_id to make a query to the database.
   $itemsql = "SELECT * FROM 'bidding' WHERE itemid = $item_id";
-  $itemresult = $conn->query($itemsql);
-  while($row = $itemresult->fetch_assoc()) {
+  $itemresult = mysqli_query($conn,$itemsql);
+  while($row = mysqli_fetch_assoc($itemresult)) {
     $title = $row['itemname'];
     $item_user = $row['userid'];
     $description = $row['description'];

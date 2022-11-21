@@ -7,7 +7,8 @@
     if(!empty($_POST['UserName']) 
     && !empty($_POST['Fullname']) 
     && !empty($_POST['Email']) 
-    && !empty($_POST['Password'])) {
+    && !empty($_POST['Password'])
+    && !empty($_POST['passwordConfirmation'])) {
       // Receive all input values from "Register Form"	 
       $UserName = $_POST['UserName'];
       $Fullname = $_POST['Fullname'];
@@ -21,6 +22,13 @@
         echo '<script>alert("User already exists!")</script>';
         header("refresh:0.5;url= register.php");
       }else{
+        if (!isset($_POST['Password']) or !isset($_POST['passwordConfirmation'])) {
+          echo '<script>alert("Please enter the password")</script>';
+          header("refresh:0.5;url= register.php");
+      } elseif (trim($_POST['Password']) != trim($_POST['passwordConfirmation'])) {
+          echo '<script>alert("Please enter matching valid password")</script>';
+          header("refresh:0.5;url= register.php");
+      }else{
         $password = md5($password); //Hash password
         //Query to insert new user into database
         $sql = "INSERT INTO `userinfo`(`username`, `fullname`, `email`,`password`,`jointime`,`role`) 
@@ -28,7 +36,10 @@
         $run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
         $_SESSION['logged_in'] = true;
         $_SESSION['Email'] = $email; //Set session variable Email as user's email address 
+        echo '<script>alert("Welcome!!!")</script>';
         header("refresh:0.5;url= browse.php"); //Auto fresh to browse.php
+      }
+        
       }
     }
     mysqli_close($conn);

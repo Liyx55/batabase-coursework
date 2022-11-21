@@ -28,7 +28,7 @@ include('database.php');
               
                 session_start(); //Start a session 
                 $userId =  $_SESSION['UserId']; 
-                $sql = "SELECT itemid, itemname, 'description', 'state', category, currentprice, endtime FROM bidding where userid = $userId;";  
+                $sql = "SELECT itemid, itemname, description, state, category, currentprice, endtime FROM bidding where userid = $userId;";  
                 $result = mysqli_query($conn, $sql);
                 if ($result->num_rows > 0){
                   while($row = mysqli_fetch_assoc($result)) {
