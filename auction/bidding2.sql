@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1:3306
--- 生成日期： 2022-11-21 09:01:01
+-- 生成日期： 2022-11-21 20:48:51
 -- 服务器版本： 5.7.36
 -- PHP 版本： 7.4.26
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `bidding` (
   `state` int(1) NOT NULL DEFAULT '0',
   `isbid` int(1) DEFAULT NULL,
   PRIMARY KEY (`itemid`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
 --
 -- 转存表中的数据 `bidding`
@@ -57,9 +57,10 @@ INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reser
 (6, 'klfdgnkl', '2', 435, 435, 435, '2022-11-09 18:32:00', 'lnsglj', NULL, NULL, 0, 0, 0),
 (7, 'cute cat', 'others', 500, 600, 500, '2022-11-20 20:00:00', '', 40, NULL, 0, 0, 0),
 (8, 'cute cats', 'others', 21, 22, 21, '2022-11-20 20:00:00', 'sss', 39, NULL, 0, 0, NULL),
-(9, 'choujuanbao', 'others', 30, 31, 30, '2022-11-20 20:00:00', 'shijiniangniangâ€˜s favorite ', 39, NULL, 0, 0, NULL),
 (10, 'sss', 'home&kitchen', 23, 24, 23, '2022-11-20 21:00:00', 'sss', 39, NULL, 0, 0, NULL),
-(12, 'kitchen', 'home&kitchen', 56, 57, 56, '2022-12-12 12:00:00', 'jjj', 39, NULL, 0, 0, NULL);
+(12, 'kitchen', 'home&kitchen', 56, 57, 56, '2022-12-12 12:00:00', 'jjj', 39, NULL, 0, 0, NULL),
+(14, 'choujuanbao', 'others', 45, 45, 55, '2022-12-12 12:00:00', 'shijiniangniang', 39, NULL, 0, 0, NULL),
+(15, 'basketball', 'appliances', 56, 56, 56, '2022-11-30 12:00:00', 'bsk', 39, NULL, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -69,43 +70,50 @@ INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reser
 
 DROP TABLE IF EXISTS `biddinghistory`;
 CREATE TABLE IF NOT EXISTS `biddinghistory` (
-  `username` varchar(30) NOT NULL,
+  `bidid` int(8) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
   `itemid` int(8) NOT NULL,
   `biddingprice` int(20) NOT NULL,
-  `biddingdate` datetime NOT NULL,
-  PRIMARY KEY (`biddingdate`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `biddingdate` datetime DEFAULT NULL,
+  PRIMARY KEY (`bidid`)
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `biddinghistory`
 --
 
-INSERT INTO `biddinghistory` (`username`, `itemid`, `biddingprice`, `biddingdate`) VALUES
-('3', 2, 60, '2018-03-15 22:09:13'),
-('1', 17, 60, '2018-03-16 00:22:40'),
-('1', 4, 100, '2018-03-16 00:23:05'),
-('1', 6, 2100, '2018-03-16 00:23:23'),
-('1', 12, 80, '2018-03-16 00:23:51'),
-('3', 17, 70, '2018-03-16 00:24:13'),
-('30', 17, 71, '2018-03-16 00:24:47'),
-('1', 17, 72, '2018-03-16 00:25:11'),
-('30', 17, 73, '2018-03-16 00:25:33'),
-('2', 17, 74, '2018-03-16 00:25:59'),
-('1', 17, 75, '2018-03-16 00:26:15'),
-('3', 17, 80, '2018-03-16 00:26:42'),
-('1', 5, 150, '2018-03-16 00:27:45'),
-('1', 13, 498, '2018-03-16 00:48:37'),
-('31', 17, 85, '2018-03-16 01:43:15'),
-('30', 20, 600, '2018-03-16 02:18:08'),
-('30', 21, 900, '2018-03-16 02:20:38'),
-('30', 6, 2180, '2018-03-16 02:22:14'),
-('31', 22, 1000, '2018-03-16 02:36:24'),
-('31', 6, 2300, '2018-03-16 02:59:14'),
-('33', 17, 90, '2022-11-13 18:09:57'),
-('33', 5, 155, '2022-11-13 18:20:32'),
-('33', 5, 160, '2022-11-13 18:25:21'),
-('33', 4, 120, '2022-11-13 20:25:14'),
-('33', 5, 170, '2022-11-15 15:21:36');
+INSERT INTO `biddinghistory` (`bidid`, `userid`, `itemid`, `biddingprice`, `biddingdate`) VALUES
+(1, 3, 2, 60, NULL),
+(2, 1, 17, 60, NULL),
+(3, 1, 4, 100, NULL),
+(4, 1, 6, 2100, NULL),
+(5, 1, 12, 80, NULL),
+(6, 3, 17, 70, NULL),
+(7, 30, 17, 71, NULL),
+(8, 1, 17, 72, NULL),
+(9, 30, 17, 73, NULL),
+(10, 2, 17, 74, NULL),
+(11, 1, 17, 75, NULL),
+(12, 3, 17, 80, NULL),
+(13, 1, 5, 150, NULL),
+(14, 1, 13, 498, NULL),
+(15, 31, 17, 85, NULL),
+(16, 30, 20, 600, NULL),
+(17, 30, 21, 900, NULL),
+(18, 30, 6, 2180, NULL),
+(19, 31, 22, 1000, NULL),
+(20, 31, 6, 2300, NULL),
+(21, 33, 17, 90, NULL),
+(22, 33, 5, 155, NULL),
+(23, 33, 5, 160, NULL),
+(24, 33, 4, 120, NULL),
+(25, 33, 5, 170, NULL),
+(34, 39, 14, 51, '2022-11-21 20:40:52'),
+(33, 39, 14, 50, '2022-11-21 20:39:55'),
+(32, 39, 14, 46, '2022-11-21 20:39:40'),
+(35, 39, 14, 53, '2022-11-21 20:42:46'),
+(36, 39, 14, 54, '2022-11-21 20:43:09'),
+(37, 39, 14, 55, '2022-11-21 20:46:50');
 
 -- --------------------------------------------------------
 

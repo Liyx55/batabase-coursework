@@ -1,31 +1,42 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
-<?php session_start()?>
 
 <?php
-  include 'database.php';
-  $item_id = $_GET['itemid'];// Get info from the URL:
-  $user_id = $_SESSION['userid'];
+  // Get info from the URL:
+  include_once("database.php");
+  session_start();
+  $item_id = $_GET['item_id'];
+  $userId =  $_SESSION['UserId'];
+  $_SESSION["Item_Id"] = $item_id;
+  //echo $item_id;
 
   // TODO: Use item_id to make a query to the database.
-  $itemsql = "SELECT * FROM 'bidding' WHERE itemid = $item_id";
+  $itemsql = "SELECT * FROM bidding WHERE itemid = $item_id";
+  $result = $conn->query($itemsql);
+  //if($result){
+   // echo 'succeed';
+  //}
+  //echo  $itemsql;
   $itemresult = mysqli_query($conn,$itemsql);
-  while($row = mysqli_fetch_assoc($itemresult)) {
+  while($row = mysqli_fetch_assoc($itemresult)){
     $title = $row['itemname'];
     $item_user = $row['userid'];
     $description = $row['description'];
     $state = $row['state'];
     $category = $row['category'];
     $current_price = $row['currentprice'];
+    $reserve_price = $row['reserveprice'];
     $end_time = new DateTime($row['endtime']);
   };
-
   // TODO: Note: Auctions that have ended may pull a different set of data,
   //       like whether the auction ended in a sale or was cancelled due
   //       to lack of high-enough bids. Or maybe not.
   
   // Calculate time to auction end:
   $now = new DateTime();
+  //print_r($now->format('Y-m-d H:i:s'));
+  //print_r($end_time->format('Y-m-d H:i:s'));
+
   
   if ($now < $end_time) {
     $time_to_end = date_diff($now, $end_time);
@@ -41,11 +52,20 @@
 
 
 <div class="container">
+  <!-- Print Name of the item as the title of the page-->
+  <br><h1 class="my-3"><?php echo($title); ?></h1><hr><br> 
+  <div class="row"> <!--Start of first row -->
+    <!-- Left Column: Item details -->
+    <div class="col-sm-8"> 
+    <div class="itemDescription">
+        <?php 
+          echo('<strong>Description</strong>: '.$description.'<br>'); 
+          echo('<strong>Cateogry</strong>: '.$category.'<br>');
+        ?>
+      </div>
+    </div>
 
-<div class="row"> <!-- Row #1 with auction title + watch button -->
-  <div class="col-sm-8"> <!-- Left col -->
-    <h2 class="my-3"><?php echo($title); ?></h2>
-  </div>
+
   <div class="col-sm-4 align-self-center"> <!-- Right col -->
 <?php
   /* The following watchlist functionality uses JavaScript, but could
@@ -66,8 +86,8 @@
 <div class="row"> <!-- Row #2 with auction description + bidding info -->
   <div class="col-sm-8"> <!-- Left col with item info -->
 
-    <div class="itemDescription">
-    <?php echo($description); ?>
+    <div class="itemPhoto">
+    <?php echo '<img class="card-img-top img-fluid " width="80px" style="margin-top: 20px;" src="itemphoto/'.$_GET['item_id'].'.jpg" alt="image description"></td>'; ?>
     </div>
 
   </div>
@@ -75,51 +95,38 @@
   <div class="col-sm-4"> <!-- Right col with bidding info -->
 
     <p>
-      <?php if ($now > $end_time): ?>
-          This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
+      
           <!-- TODO: Print the result of the auction here? -->
+    <?php if ($now > $end_time): {
+      echo "This auction ended in ";
+      echo(date_format($end_time, 'j M H:i'));
+      if($current_price>=$reserve_price){
+        echo "<br/>The price is: ".$current_price;
+      }else{
+        echo "<br/>The auction was cancelled due to lack of high-enough bids.";
+      }
+    }
+      ?>
       <?php else: ?>
           Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
           <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
-          <?php 
-                // bidding history 
-                if($current_price!=NULL){
-                  session_start();
-                  $_SESSION['isbid'] = "1";
-                  echo ('£'.$current_price.'');
-                }else{
-                  session_start();
-                  $_SESSION['isbid'] = "0";
-                  echo "No Bid Yet!";
-                }
-              ?>
-
 
     <!-- Bidding form -->
-    <?php 
-        include 'database.php'; //Connect to the database
-        session_start();
-        $_SESSION['itemid'] = $item_id;
-      ?>
-    <!-- Check if current user is the seller -->
-    <?php if ($item_user!=$user_id):?>
-
     <form method="POST" action="place_bid.php">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
-	    <input type="number" class="form-control" id="bid">
+	    <input type="number" name="placebid" class="form-control" id="bid">
       </div>
       <button type="submit" class="btn btn-primary form-control">Place bid</button>
     </form>
-    <?php endif ?>
-    <?php $conn->close();?>
+<?php endif ?>
+
   
   </div> <!-- End of right col with bidding info -->
 
 </div> <!-- End of row #2 -->
-
 <div>
         <p>Bid History:</p>
         <!-- get bidrecord data and print in a table -->
@@ -129,21 +136,19 @@
             <th>Bid Date & Time</th>
           </tr>
           <?php 
-            include 'database.php'; 
             //Query to get data from BidRecord table depend on item_id order by the price from highest to lowest
-            $bidhistory = "SELECT biddingprice, biddingdate FROM biddinghistory WHERE itemid =  $item_id ORDER BY biddingprice DESC";
+            $bidhistory = "SELECT biddingprice, biddingdate FROM biddinghistory WHERE itemid=$item_id ORDER BY biddingprice DESC";
             $bidresult = $conn->query($bidhistory); 
             while($row = $bidresult->fetch_assoc()) { ?>
             <tr>
-              <td><?php echo $row['BidPrice']?></td>
-              <td><?php echo $row['BidDateTime']?></td>
+              <td><?php echo $row['biddingprice']?></td>
+              <td><?php echo $row['biddingdate']?></td>
             </tr>
           <?php }$conn->close();?>
         </table>
       </div>
-    <?php endif ?>
 
-
+<?php $conn->close();?>
 <?php include_once("footer.php")?>
 
 
