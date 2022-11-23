@@ -2,197 +2,186 @@
 <?php require("utilities.php")?>
 
 <div class="container">
-
-<h2 class="my-3">Browse listings</h2>
-
-<div id="searchSpecs">
-<!-- When this form is submitted, this PHP page is what processes it.
-     Search/sort specs are passed to this page through parameters in the URL
-     (GET method of passing data to a page). -->
-<form method="get" action="browse.php">
-  <div class="row">
-    <div class="col-md-5 pr-0">
-      <div class="form-group">
-        <label for="keyword" class="sr-only">Search keyword:</label>
-	    <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text bg-transparent pr-0 text-muted">
-              <i class="fa fa-search"></i>
-            </span>
+  <h2 class="my-4">Browse listings</h2>
+  <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true):?> 
+    <div id="searchSpecs">
+      <!-- Filterings that allow user to re-arrange listings of items based on search bar, sortby, and category -->
+      <form method="GET" action="browse.php">
+        <div class="row">
+          <div class="col-md-5 pr-0">
+            <!-- Search bar -->
+            <div class="form-group">
+              <div class="input-group">
+                <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+              </div>
+            </div>
           </div>
-          <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
+          <div class="col-md-3 pr-0">
+            <!-- Category drop-down menu -->
+            <div class="form-group">
+              <select class="form-control" name="category">
+                <option value="" disabled selected>Select your category</option>
+                <option value="bedroom">bedroom</option>
+                <option value="living Room">living Room</option>
+                <option value="kitchen">kitchen</option>
+                <option value="bathroom">bathroom</option>
+                <option value="study">study</option>
+                <option value="appliances">appliances</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 pr-0">
+            <!-- Sort by drop-down menu -->
+            <div class="form-inline">
+              <select class="form-control" name="order_by">
+                <option value="" disabled selected>Sort by</option>
+                <option value="pricelow">Price (low to high)</option>
+                <option value="pricehigh">Price (high to low)</option>
+                <option value="date">Soonest expiry</option>
+              </select>
+            </div>
+          </div>
+          <!-- Search button -->
+          <div class="col-md-1 px-0">
+            <label class="mx-1"> </label>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-3 pr-0">
-      <div class="form-group">
-        <label for="cat" class="sr-only">Search within:</label>
-        <select class="form-control" id="cat">
-          <option selected value="all">All categories</option>
-          <option value="fill">Fill me in</option>
-          <option value="with">with options</option>
-          <option value="populated">populated from a database?</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-3 pr-0">
-      <div class="form-inline">
-        <label class="mx-2" for="order_by">Sort by:</label>
-        <select class="form-control" id="order_by">
-          <option selected value="pricelow">Price (low to high)</option>
-          <option value="pricehigh">Price (high to low)</option>
-          <option value="date">Soonest expiry</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-1 px-0">
-      <button type="submit" class="btn btn-primary">Search</button>
-    </div>
+      </form>
+    </div> 
   </div>
-</form>
-</div> <!-- end search specs bar -->
-
-
-</div>
-
-<?php
-  // Retrieve these from the URL
-  if (!isset($_GET['keyword'])) {
-    // TODO: Define behavior if a keyword has not been specified.
-  }
-  else {
-    $keyword = $_GET['keyword'];
-  }
-
-  if (!isset($_GET['cat'])) {
-    // TODO: Define behavior if a category has not been specified.
-  }
-  else {
-    $category = $_GET['cat'];
-  }
-  
-  if (!isset($_GET['order_by'])) {
-    // TODO: Define behavior if an order_by value has not been specified.
-  }
-  else {
-    $ordering = $_GET['order_by'];
-  }
-  
-  if (!isset($_GET['page'])) {
-    $curr_page = 1;
-  }
-  else {
-    $curr_page = $_GET['page'];
-  }
-
-  /* TODO: Use above values to construct a query. Use this query to 
-     retrieve data from the database. (If there is no form data entered,
-     decide on appropriate default value/default query to make. */
-  
-  /* For the purposes of pagination, it would also be helpful to know the
-     total number of results that satisfy the above query */
-  $num_results = 96; // TODO: Calculate me for real
-  $results_per_page = 10;
-  $max_page = ceil($num_results / $results_per_page);
-?>
 
 <div class="container mt-5">
+    <ul class="list-group">
+    <?php
+      include 'database.php'; 
+      $search = $_GET['search']; // Get What user entered in the search bar
+      $category = $_GET['category']; // Get user's selected category from the list
+      $sortby = $_GET['order_by']; //Get user's selected sort by option
 
-<!-- TODO: If result set is empty, print an informative message. Otherwise... -->
-
-<ul class="list-group">
-
-<!-- TODO: Use a while loop to print a list item for each auction listing
-     retrieved from the query -->
-
-<?php
-  // Demonstration of what listings will look like using dummy data.
-  $item_id = "7";
-  $title = "iphone14";
-  $description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget rutrum ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus feugiat, ipsum vel egestas elementum, sem mi vestibulum eros, et facilisis dui nisi eget metus. In non elit felis. Ut lacus sem, pulvinar ultricies pretium sed, viverra ac sapien. Vivamus condimentum aliquam rutrum. Phasellus iaculis faucibus pellentesque. Sed sem urna, maximus vitae cursus id, malesuada nec lectus. Vestibulum scelerisque vulputate elit ut laoreet. Praesent vitae orci sed metus varius posuere sagittis non mi.";
-  $current_price = 1300;
-  $num_bids = 1;
-  $end_date = new DateTime('2022-11-20T00:00:00');
-  
-  // This uses a function defined in utilities.php
-  print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
-  
-  $item_id = "2";
-  $title = "Different title";
-  $description = "Very short description.";
-  $current_price = 13.50;
-  $num_bids = 3;
-  $end_date = new DateTime('2022-11-20T00:00:00');
-  
-  print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
-?>
-
-</ul>
-
-<!-- Pagination for results listings -->
-<nav aria-label="Search results pages" class="mt-5">
-  <ul class="pagination justify-content-center">
-  
-<?php
-
-  // Copy any currently-set GET variables to the URL.
-  $querystring = "";
-  foreach ($_GET as $key => $value) {
-    if ($key != "page") {
-      $querystring .= "$key=$value&amp;";
-    }
-  }
-  
-  $high_page_boost = max(3 - $curr_page, 0);
-  $low_page_boost = max(2 - ($max_page - $curr_page), 0);
-  $low_page = max(1, $curr_page - 2 - $low_page_boost);
-  $high_page = min($max_page, $curr_page + 2 + $high_page_boost);
-  
-  if ($curr_page != 1) {
-    echo('
-    <li class="page-item">
-      <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page - 1) . '" aria-label="Previous">
-        <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
-        <span class="sr-only">Previous</span>
-      </a>
-    </li>');
-  }
-    
-  for ($i = $low_page; $i <= $high_page; $i++) {
-    if ($i == $curr_page) {
-      // Highlight the link
-      echo('
-    <li class="page-item active">');
-    }
-    else {
-      // Non-highlighted link
-      echo('
-    <li class="page-item">');
-    }
-    
-    // Do this in any case
-    echo('
-      <a class="page-link" href="browse.php?' . $querystring . 'page=' . $i . '">' . $i . '</a>
-    </li>');
-  }
-  
-  if ($curr_page != $max_page) {
-    echo('
-    <li class="page-item">
-      <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page + 1) . '" aria-label="Next">
-        <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </li>');
-  }
-?>
-
-  </ul>
-</nav>
-
-
+      //echo '<script>alert("$search")</script>';
+      //GROUP BY category
+      //AND endtime >= CURRENT_TIMESTAMP
+      if ($search){ $searchsql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
+        FROM bidding i
+        WHERE itemname LIKE '%$search%'  ";
+        $searchresult = mysqli_query($conn,$searchsql);
+        if (mysqli_num_rows($searchresult) > 0){
+          while($row = mysqli_fetch_assoc($searchresult) ){
+            $item_id = $row['itemid'];
+            $title = $row['itemname'];
+            $description = $row['description'];
+            $price = $row['highest_price'];
+            $end_time = new DateTime($row['endtime']);
+            $num_bids = $row['viewnum'];
+            /*
+            出价次数现在用的是浏览次数 这个后面要修改
+            */
+            // Print out item details using the print_listing_li function defined in utilities.php
+            print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );/* $image,$time_remaining 如果加上需要修改uitilities.php函数*/
+          }
+        }else{
+          echo ('<div class="d-flex justify-content-center"><h3>NOTHING MATCHES YOUR SEARCH</h3></div>
+          <br><div class="d-flex justify-content-center"><p>Please check the spelling or try less specific search terms.</p></div>');
+        } 
+      }else if ($category){$categorysql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
+        FROM bidding   i
+        WHERE category LIKE '$category' ";
+        $categoryresult = mysqli_query($conn,$categorysql);
+        if (mysqli_num_rows($categoryresult) > 0){
+        //if ($categoryresult->num_rows > 0){     AND endtime >= CURRENT_TIMESTAMP
+          while($row = mysqli_fetch_assoc($categoryresult) ){
+            $item_id = $row['itemid'];
+            $title = $row['itemname'];
+            $description = $row['description'];
+            $price = $row['highest_price'];
+            $end_time = new DateTime($row['endtime']);
+            $num_bids = $row['viewnum'];
+            // Print out item details using the print_listing_li function defined in utilities.php
+            print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
+          }
+        }else{
+          //echo ('<div class="d-flex justify-content-center"><h3>NOTHING MATCHES YOUR SEARCH</h3></div>
+          //<br><div class="d-flex justify-content-center"><p>Please check the spelling or try less specific search terms.</p></div>');
+          print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
+          print($category);
+        }
+      }else if ($sortby){  //if user selected sort by option
+        if($sortby=='pricehigh'){  //Sort price from highest to lowest
+          //Query to sort item by price from highest to lowest 
+          $maxsortsql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
+          FROM bidding   i
+          WHERE endtime >= CURRENT_TIMESTAMP
+          ORDER BY highest_price DESC";
+          $maxsortresult = mysqli_query($conn,$maxsortsql);
+          while($row = mysqli_fetch_assoc($maxsortresult)) {
+            $item_id = $row['itemid'];
+            $title = $row['itemname'];
+            $description = $row['description'];
+            $price = $row['highest_price'];
+            $end_time = new DateTime($row['endtime']);
+            $num_bids = $row['viewnum'];
+            // Print out item details using the print_listing_li function defined in utilities.php
+            print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
+          };
+        }else if($sortby=='pricelow'){//sort price from lowest to highest
+          //Query to sort item by price from lowest to highest
+          $minsortsql = "SELECT i.itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
+          FROM bidding   i
+          WHERE endtime >= CURRENT_TIMESTAMP
+          ORDER BY highest_price ASC";
+          $minsortresult = mysqli_query($conn,$minsortsql);
+          while($row = mysqli_fetch_assoc($minsortresult)) {
+            $item_id = $row['itemid'];
+            $title = $row['itemname'];
+            $description = $row['description'];
+            $price = $row['highest_price'];
+            $end_time = new DateTime($row['endtime']);
+            $num_bids = $row['viewnum'];
+            // Print out item details using the print_listing_li function defined in utilities.php
+            print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
+          };
+        }else if ($sortby=="date"){ //sort by date
+          //Query to sort item by expiry date from soonest to latest
+          $datesortsql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
+          FROM bidding   i
+          WHERE endtime >= CURRENT_TIMESTAMP
+          ORDER BY endtime ASC";
+          $dateresult = mysqli_query($conn,$datesortsql);
+          while($row = mysqli_fetch_assoc($dateresult)) {
+            $item_id = $row['itemid'];
+            $title = $row['itemname'];
+            $description = $row['description'];
+            $price = $row['highest_price'];
+            $end_time = new DateTime($row['endtime']);
+            $num_bids = $row['viewnum'];
+            // Print out item details using the print_listing_li function defined in utilities.php
+            print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
+          };
+        }
+      }else{
+        //Query to get all items from the database if no filter is being used
+        $sql = "SELECT i.itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
+        FROM bidding   i
+        WHERE endtime >= CURRENT_TIMESTAMP";
+        $result = mysqli_query($conn,$sql);
+        while($row = mysqli_fetch_assoc($result)) {
+          $item_id = $row['itemid'];
+          $title = $row['itemname'];
+          $description = $row['category'];
+          $price = $row['highest_price'];
+          $end_time = new DateTime($row['endtime']);
+          $num_bids = $row['viewnum'];
+          // Print out item details using the print_listing_li function defined in utilities.php
+          print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
+        };
+      }
+      $conn->close(); //Close connection
+    ?> 
+    </ul>
+    <!-- If user is not logged in, message below will be shown to indicate they need to log in first before access any contents -->
+    <?php else :?>
+    <p>Please Log in to see the contents :)</p>
+  <?php endif?>
 </div>
-
-
-
 <?php include_once("footer.php")?>
