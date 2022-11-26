@@ -18,12 +18,13 @@ session_start();
   // the shared "utilities.php" where they can be shared by multiple files.
   
   
-  // TODO: Check user's credentials (cookie/session).
 
 
+  $_SESSION['logged_in'] = true;
   $userId =  $_SESSION['UserId']; 
-  $sqlmylisting = "SELECT userid FROM bidding where userid = $userId;";
-  $resultsml = mysqli_query($conn, $sqlmylisting);
+  
+  //TODO register之后没有办法拿到userid
+    // Check user's credentials (cookie/session).
   $sql = "SELECT itemid, itemname, description, state, category, currentprice, endtime, winner FROM bidding where userid = $userId;";  
   $result = mysqli_query($conn, $sql);
 
@@ -33,7 +34,7 @@ session_start();
             // Redirect to index after 5 seconds
             header("refresh:5;url=login.php"); 
            }
-           elseif  ($result->num_rows > 0){          // TODO: Perform a query to pull up their auctions.
+           elseif  ($result->num_rows > 0){          // Perform a query to pull up their auctions.
                   while($row = mysqli_fetch_assoc($result)) {
                     $item_id = $row['itemid'];
                     $title = $row['itemname'];

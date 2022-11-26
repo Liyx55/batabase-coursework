@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1:3306
--- 生成日期： 2022-11-21 20:48:51
+-- 生成日期： 2022-11-25 18:44:08
 -- 服务器版本： 5.7.36
 -- PHP 版本： 7.4.26
 
@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `bidding` (
   `viewnum` int(200) NOT NULL DEFAULT '0',
   `state` int(1) NOT NULL DEFAULT '0',
   `isbid` int(1) DEFAULT NULL,
+  `winner` int(11) DEFAULT NULL,
   PRIMARY KEY (`itemid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
@@ -49,18 +50,17 @@ CREATE TABLE IF NOT EXISTS `bidding` (
 -- 转存表中的数据 `bidding`
 --
 
-INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reserveprice`, `currentprice`, `endtime`, `description`, `userid`, `buyer`, `viewnum`, `state`, `isbid`) VALUES
-(2, 'dsvb', '2', 34, 345, 34, '2022-11-05 17:49:00', 'dfsb', 0, 0, 0, 0, 0),
-(3, 'asdfg', '3', 345, 2345, 345, '2022-11-04 17:59:00', 'dfab', NULL, NULL, 0, 0, 0),
-(4, 'ds,amgn', '2', 324, 325, 324, '2022-11-04 18:01:00', 'dmsgnlk', NULL, NULL, 0, 0, 0),
-(5, 'ds,mangl', '2', 324, 3425, 324, '2022-11-02 18:04:00', 'dsljfgn', NULL, NULL, 0, 0, 0),
-(6, 'klfdgnkl', '2', 435, 435, 435, '2022-11-09 18:32:00', 'lnsglj', NULL, NULL, 0, 0, 0),
-(7, 'cute cat', 'others', 500, 600, 500, '2022-11-20 20:00:00', '', 40, NULL, 0, 0, 0),
-(8, 'cute cats', 'others', 21, 22, 21, '2022-11-20 20:00:00', 'sss', 39, NULL, 0, 0, NULL),
-(10, 'sss', 'home&kitchen', 23, 24, 23, '2022-11-20 21:00:00', 'sss', 39, NULL, 0, 0, NULL),
-(12, 'kitchen', 'home&kitchen', 56, 57, 56, '2022-12-12 12:00:00', 'jjj', 39, NULL, 0, 0, NULL),
-(14, 'choujuanbao', 'others', 45, 45, 55, '2022-12-12 12:00:00', 'shijiniangniang', 39, NULL, 0, 0, NULL),
-(15, 'basketball', 'appliances', 56, 56, 56, '2022-11-30 12:00:00', 'bsk', 39, NULL, 0, 0, NULL);
+INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reserveprice`, `currentprice`, `endtime`, `description`, `userid`, `buyer`, `viewnum`, `state`, `isbid`, `winner`) VALUES
+(2, 'dsvb', '2', 34, 345, 34, '2022-11-05 17:49:00', 'dfsb', 0, 0, 0, 0, 0, NULL),
+(3, 'asdfg', '3', 345, 2345, 345, '2022-11-04 17:59:00', 'dfab', NULL, NULL, 0, 0, 0, NULL),
+(4, 'ds,amgn', '2', 324, 325, 324, '2022-11-04 18:01:00', 'dmsgnlk', NULL, NULL, 0, 0, 0, NULL),
+(5, 'ds,mangl', '2', 324, 3425, 324, '2022-11-02 18:04:00', 'dsljfgn', NULL, NULL, 0, 0, 0, NULL),
+(6, 'klfdgnkl', '2', 435, 435, 435, '2022-11-09 18:32:00', 'lnsglj', NULL, NULL, 0, 0, 0, NULL),
+(8, 'cute cats', 'others', 21, 22, 21, '2022-11-20 20:00:00', 'sss', 39, NULL, 0, 0, NULL, 38),
+(10, 'sss', 'home&kitchen', 23, 24, 23, '2022-11-20 21:00:00', 'sss', 39, NULL, 0, 0, NULL, 39),
+(12, 'kitchen', 'home&kitchen', 56, 57, 81, '2022-12-12 12:00:00', 'jjj', 39, NULL, 0, 0, NULL, NULL),
+(14, 'choujuanbao', 'others', 45, 65, 61, '2022-11-25 17:50:30', 'shijiniangniang', 39, NULL, 0, 0, NULL, NULL),
+(15, 'basketball', 'appliances', 56, 56, 56, '2022-11-30 12:00:00', 'bsk', 39, NULL, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `biddinghistory` (
   `biddingprice` int(20) NOT NULL,
   `biddingdate` datetime DEFAULT NULL,
   PRIMARY KEY (`bidid`)
-) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `biddinghistory`
@@ -113,7 +113,13 @@ INSERT INTO `biddinghistory` (`bidid`, `userid`, `itemid`, `biddingprice`, `bidd
 (32, 39, 14, 46, '2022-11-21 20:39:40'),
 (35, 39, 14, 53, '2022-11-21 20:42:46'),
 (36, 39, 14, 54, '2022-11-21 20:43:09'),
-(37, 39, 14, 55, '2022-11-21 20:46:50');
+(37, 39, 14, 55, '2022-11-21 20:46:50'),
+(38, 39, 12, 80, '2022-11-22 14:49:30'),
+(39, 39, 14, 56, '2022-11-22 15:26:19'),
+(40, 40, 14, 57, '2022-11-22 16:33:59'),
+(41, 40, 14, 58, '2022-11-22 16:50:26'),
+(43, 39, 14, 60, '2022-11-25 16:44:28'),
+(44, 40, 14, 61, '2022-11-25 16:44:52');
 
 -- --------------------------------------------------------
 
@@ -177,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `userinfo` (
   `role` int(11) DEFAULT NULL,
   PRIMARY KEY (`userid`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `userinfo`
@@ -199,7 +205,11 @@ INSERT INTO `userinfo` (`userid`, `username`, `password`, `fullname`, `email`, `
 (36, 'kk', '97304531204ef7431330c20427d95481', 'xiaoming', 'xiaoming@qq.com', '2022-11-14 17:24:33', 1),
 (37, 'hong', '1167eac4687a0d8aae4d01efe9274cda', 'xiaohong', 'xiaohong@qq.com', '2022-11-15 17:24:56', 1),
 (38, 'bao', '6e79120dfe969a7846a4b7a1fb63ab19', 'xiaobao', 'xiaobao@qq.com', '2022-11-15 17:29:16', 1),
-(39, 'luanqi0524@gmail.com', '346020a1f63242ecdbb1f7016acd0c30', 'shua', 'luanqi0524@gmail.com', '2022-11-19 18:07:44', 1);
+(39, 'luanqi0524@gmail.com', '346020a1f63242ecdbb1f7016acd0c30', 'shua', 'luanqi0524@gmail.com', '2022-11-19 18:07:44', 1),
+(40, 'legnahsurb', 'faa401313e2dea7b15f4a7850f7c2a5e', 'a', 'luanqi2000@126.com', '2022-11-22 16:32:22', 1),
+(41, 'nji', '979aab91652e462413e7d2a42b00d70c', 'sed', 'luanqi20000524@qq.com', '2022-11-23 09:06:50', 1),
+(42, 'db', '25f9e794323b453885f5181f1b624d0b', 'database', 'db@123.com', '2022-11-23 10:01:17', 1),
+(43, 'db456@123.com', 'cbc3f649c0c1e814df3cb85c3f83380a', 'db456', 'db456@123.com', '2022-11-25 15:14:46', 1);
 
 -- --------------------------------------------------------
 

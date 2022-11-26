@@ -46,8 +46,24 @@
   // TODO: If the user has a session, use it to make a query to the database
   //       to determine if the user is already watching this item.
   //       For now, this is hardcoded.
+  $findexistingsql = "SELECT * FROM Watchlist WHERE UserId = $userId AND ItemId=$item_id";
+  $findexistingresult = mysqli_query($conn,$findexistingsql);
+  $count = mysqli_num_rows($findexistingresult);
+  if ($count>0){
+    $has_session = true;
+    $watching = true;
+    //$functionname = 'remove_from_watchlist';
+    //session_start();
+  //$_SESSION['functionname'] = $functionname;
+  //echo $functionname;
+  }else{
   $has_session = true;
   $watching = false;
+  //$functionname = 'add_to_watchlist';
+  //  session_start();
+  //$_SESSION['functionname'] = $functionname;
+  //echo $functionname;
+  }
 ?>
 
 
@@ -97,11 +113,20 @@
     <p>
       
           <!-- TODO: Print the result of the auction here? -->
-    <?php if ($now > $end_time): {
+    <?php 
+    if ($now > $end_time): {
       echo "This auction ended in ";
       echo(date_format($end_time, 'j M H:i'));
       if($current_price>=$reserve_price){
         echo "<br/>The price is: ".$current_price;
+        $sqlmaxbidder = "SELECT userid FROM biddinghistory WHERE itemid = $item_id AND biddingprice = $current_price";
+        $resultmax =  mysqli_query($conn, $sqlmaxbidder);
+        $assign = mysqli_fetch_assoc($resultmax);
+        $winner = $assign['userid'];
+        echo "<br/>The winner is: ".$winner;
+        $insertwinner = "UPDATE bidding SET winner = $winner WHERE itemid = $item_id";
+        $runinsert = mysqli_query($conn,$insertwinner) or die(mysqli_error($conn));
+
       }else{
         echo "<br/>The auction was cancelled due to lack of high-enough bids.";
       }
@@ -161,12 +186,13 @@ function addToWatchlist(button) {
   // This performs an asynchronous call to a PHP function using POST method.
   // Sends item ID as an argument to that function.
   $.ajax('watchlist_funcs.php', {
-    type: "POST",
+    type: "GET",
     data: {functionname: 'add_to_watchlist', arguments: [<?php echo($item_id);?>]},
 
     success: 
       function (obj, textstatus) {
         // Callback function for when call is successful and returns obj
+       
         console.log("Success");
         var objT = obj.trim();
  
@@ -193,11 +219,12 @@ function removeFromWatchlist(button) {
   // This performs an asynchronous call to a PHP function using POST method.
   // Sends item ID as an argument to that function.
   $.ajax('watchlist_funcs.php', {
-    type: "POST",
+    type: "GET",
     data: {functionname: 'remove_from_watchlist', arguments: [<?php echo($item_id);?>]},
 
     success: 
       function (obj, textstatus) {
+       
         // Callback function for when call is successful and returns obj
         console.log("Success");
         var objT = obj.trim();
@@ -218,6 +245,5 @@ function removeFromWatchlist(button) {
         console.log("Error");
       }
   }); // End of AJAX call
-
 } // End of addToWatchlist func
 </script>

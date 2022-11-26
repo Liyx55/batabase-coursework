@@ -1,20 +1,22 @@
  <?php
+ include 'database.php'; //Connect to the database
+ //Get current session 
+ session_start(); 
+ $user_id = $_SESSION['UserId']; 
+ $item_id = $_SESSION['Item_Id']; 
+ $functionname = $_GET['functionname'];
 
-if (!isset($_POST['functionname']) || !isset($_POST['arguments'])) {
-  return;
-}
-
-// Extract arguments from the POST variables:
-$item_id = $_POST['arguments'];
-
-if ($_POST['functionname'] == "add_to_watchlist") {
+if ($functionname == "add_to_watchlist") {
   // TODO: Update database and return success/failure.
-
+  $sql = "INSERT INTO watchlist (userid, itemid) VALUES ('$user_id', '$item_id')";
+  $run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  //header('Location: ' . $_SERVER['HTTP_REFERER']);
   $res = "success";
 }
-else if ($_POST['functionname'] == "remove_from_watchlist") {
+else if ($functionname == "remove_from_watchlist") {
   // TODO: Update database and return success/failure.
-
+  mysqli_query($conn,"DELETE FROM WatchList WHERE userid = '$user_id' AND itemid = '$item_id'");
+  //header('Location: ' . $_SERVER['HTTP_REFERER']);
   $res = "success";
 }
 

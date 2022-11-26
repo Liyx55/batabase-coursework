@@ -61,7 +61,7 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time)
   );
 }
 
-function print_mylisting_li($item_id, $title, $desc, $price, $end_time, $time_remaining,$winner){
+function print_mylisting_li($item_id, $title, $desc, $price, $end_time, $time_remaining, $winner){
   // Truncate long descriptions
   if (strlen($desc) > 250) {
     $desc_shortened = substr($desc, 0, 250) . '...';
@@ -89,7 +89,7 @@ function print_mylisting_li($item_id, $title, $desc, $price, $end_time, $time_re
   );
 }
 
-function print_mybidding_li($item_id, $title, $desc, $price, $end_time, $time_remaining){
+function print_mybidding_li($itemid, $title, $desc, $price, $end_time, $time_remaining,$winner){
   // Truncate long descriptions
   if (strlen($desc) > 250) {
     $desc_shortened = substr($desc, 0, 250) . '...';
@@ -106,7 +106,7 @@ function print_mybidding_li($item_id, $title, $desc, $price, $end_time, $time_re
     // Print time remaining in red to indicate auction has ended
     echo('
       <li class="list-group-item d-flex justify-content-between">
-        <div class="p-2 mr-5"><h5><a href="listing.php?item_id=' . $item_id . '">' . $title . '</a></h5>' . $desc_shortened .  '</div>
+        <div class="p-2 mr-5"><h5><a href="listing.php?item_id=' . $itemid . '">' . $title . '</a></h5>' . $desc_shortened . '<br/>' .'winnerID: '.$winner. '</div>
         <div class="text-center text-nowrap"><span style="font-size: 1.5em"> Your Highest Bid: £' . number_format($price, 2) . '</span><br/>' . '<div style="color:red">'.$time_remaining.'</div>' . '</div>
         </li>'
     );
@@ -116,7 +116,7 @@ function print_mybidding_li($item_id, $title, $desc, $price, $end_time, $time_re
     $time_remaining = display_time_remaining($time_to_end) . ' remaining';
     // Print time remaining in green to indicate auction hasn't ended
     echo('<li class="list-group-item d-flex justify-content-between">
-      <div class="p-2 mr-5"><h5><a href="listing.php?item_id=' . $item_id . '">' . $title . '</a></h5>' . $desc_shortened .  '</div>
+      <div class="p-2 mr-5"><h5><a href="listing.php?item_id=' . $itemid . '">' . $title . '</a></h5>' .'Description:  '. $desc_shortened .   '<br/>' .'winnerID: '.$winner.'</div>
       <div class="text-center text-nowrap"><span style="font-size: 1.5em">Your Highest Bid: £' . number_format($price, 2) . '</span> <br/>' . '<div style="color:green">'.$time_remaining.'</div>' . '</div>
       </li>'
     );

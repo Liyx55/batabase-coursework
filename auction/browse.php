@@ -168,7 +168,7 @@
         while($row = mysqli_fetch_assoc($result)) {
           $item_id = $row['itemid'];
           $title = $row['itemname'];
-          $description = $row['category'];
+          $description = $row['description'];
           $price = $row['highest_price'];
           $end_time = new DateTime($row['endtime']);
           $num_bids = $row['viewnum'];

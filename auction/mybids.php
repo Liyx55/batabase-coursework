@@ -1,5 +1,9 @@
-<?php include_once("header.php")?>
-<?php require("utilities.php")?>
+<?php 
+include_once("header.php");
+require("utilities.php");
+include('database.php'); 
+session_start();
+?>
 
 <div class="container">
 
@@ -14,53 +18,40 @@
   
   
   // TODO: Check user's credentials (cookie/session).
-  $userId =  $_SESSION['UserId'];
-           if($userId == null || $userId == ' ')
-           {
-            echo('<div class="text-center">Please Login!</div>');
-            // Redirect to index after 5 seconds
-            header("refresh:5;url=login.php"); 
-           }
-           else
-           {
-            session_start();
-            $userId =  $_SESSION['UserId']; 
-            $sqlmylisting = "SELECT itemid FROM bidding where userid = $userId;";
-            $resultsml = mysqli_query($conn, $sqlmylisting);
-            if($querysml == NULL){
-              echo 'You have not created any bid products yet.';
-            }
+  $userId =  $_SESSION['UserId']; 
+  $sqlhistory = "SELECT itemid, MAX(biddingprice) as usermaxbid FROM biddinghistory where userid = $userId GROUP BY itemid";
+  $resulthistory = mysqli_query($conn, $sqlhistory);
+
+  if($userId == null || $userId == ' ')
+  {
+   echo('<div class="text-center">Please Login!</div>');
+   // Redirect to index after 5 seconds
+   header("refresh:5;url=login.php"); 
+  }
+  else{
+    while($row1 = mysqli_fetch_assoc($resulthistory)) {
+      { 
+        if(($resulthistory->num_rows > 0)){  
+          $item_id = $row1['itemid'];      
+          $sqlbid = "SELECT itemid, itemname, description, endtime, winner FROM bidding WHERE itemid='$item_id'";  
+          $resultbid = mysqli_query($conn, $sqlbid);
+          while($row = mysqli_fetch_assoc($resultbid)){      
+            $itemid = $row['itemid'];
+            $title = $row['itemname'];
+            $desc = $row['description'];
+            $price = $row1['usermaxbid'];
+            $end_time = new DateTime($row['endtime']);
+            $winner = $row['winner'];
+            print_mybidding_li($itemid, $title, $desc, $price, $end_time, $time_remaining, $winner);
+               }       
           }
-           
-           
-           else
-           {
-            // TODO: Perform a query to pull up their auctions.
-              
-                session_start(); //Start a session 
-                $userId =  $_SESSION['UserId']; 
-                $sql = "SELECT itemid, itemname, description, state, category, currentprice, endtime, winner FROM bidding where userid = $userId;";  
-                $result = mysqli_query($conn, $sql);
-                if ($result->num_rows > 0){
-                  while($row = mysqli_fetch_assoc($result)) {
-                    $item_id = $row['itemid'];
-                    $title = $row['itemname'];
-                    $desc = $row['description'];
-                    $price = $row['currentprice'];
-                    $end_time = new DateTime($row['endtime']);
-                    $winner = $row['winner'];
+          else{
+            echo 'You have not bid any products yet.';//TODO 没创建过bids的用户见面上并打印不出来这个
+           }
+       }
 
-                    // Print out item details using the print_mylisting_li function defined in utilities.php
-                    print_mybidding_li($item_id, $title, $desc, $price, $end_time, $time_remaining);
-                    }
-                    }
-                    
-
-                  }
-  // TODO: Perform a query to pull up the auctions they've bidded on.
-  
-  // TODO: Loop through results and print them out as list items.
-  
+  }
+      
+    }
+ 
 ?>
-
-<?php include_once("footer.php")?>
