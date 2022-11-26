@@ -1,4 +1,5 @@
 <?php 
+  session_start();
   include_once("header.php");
   include 'database.php'; //Connect to the database
   //When user submit the register form 
@@ -35,6 +36,7 @@
         VALUES ('$UserName','$Fullname','$email','$password',NOW(),'1')";
         $run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
         $_SESSION['logged_in'] = true;
+        $_SESSION['UserName'] = $UserName;
         $_SESSION['Email'] = $email; //Set session variable Email as user's email address 
         echo '<script>alert("Welcome!!!")</script>';
         header("refresh:0.5;url= browse.php"); //Auto fresh to browse.php

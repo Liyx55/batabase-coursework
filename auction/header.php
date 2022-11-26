@@ -1,12 +1,16 @@
+<?php require("utilities.php")?>
 <?php
   // FIXME: At the moment, I've allowed these values to be set manually.
   // But eventually, with a database, these should be set automatically
   // ONLY after the user's login credentials have been verified via a 
   // database query.
+  include 'database.php'; // Connect to the database
+  #include 'process_registration.php';
   session_start();
   #$_SESSION['logged_in'] = false;
+  $email = $_SESSION['Email'] ;
   $_SESSION['account_type'] = 'seller';
-  include 'database.php'; // Connect to the database
+  
   error_reporting(E_ERROR | E_PARSE);
 ?>
 
@@ -38,7 +42,8 @@
           <?php
             // Displays either login or logout on the right, depending on user's current status (session).
             if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-              echo '<a class="nav-link" href="logout.php">Logout</a>';
+              echo $email;
+              echo '<a class="nav-link" href="logout.php"> Logout</a>';
             }else {
               echo '<button type="button" class="btn nav-link" ><a class="nav-link" href="login.php">Login<a/></button>';
             }

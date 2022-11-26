@@ -5,9 +5,9 @@ include_once("database.php");
 
 // For now, I will just set session variables and redirect.
 
-#session_start();
-$_SESSION['logged_in'] = true;
-$_SESSION['username'] = "test";
+session_start();
+#$_SESSION['logged_in'] = true;
+#$_SESSION['username'] = "test";
 $_SESSION['account_type'] = "buyer";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $count = mysqli_num_rows($result);
     // If result matched email and password, table row must be 1 row
     if($count == 1) {
-      session_start(); //start a session
+      #session_start(); //start a session
       //Set session variables
       $_SESSION['logged_in'] = true; 
       $_SESSION['Email'] = $email;
