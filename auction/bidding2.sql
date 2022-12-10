@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- 主机： localhost
--- 生成日期： 2022-12-10 19:37:12
--- 服务器版本： 10.4.21-MariaDB
--- PHP 版本： 7.4.29
+-- 主机： 127.0.0.1
+-- 生成日期： 2022-12-11 00:12:14
+-- 服务器版本： 10.4.11-MariaDB
+-- PHP 版本： 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -27,8 +28,9 @@ SET time_zone = "+00:00";
 -- 表的结构 `bidding`
 --
 
-CREATE TABLE `bidding` (
-  `itemid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `bidding`;
+CREATE TABLE IF NOT EXISTS `bidding` (
+  `itemid` int(11) NOT NULL AUTO_INCREMENT,
   `itemname` varchar(30) NOT NULL,
   `category` varchar(30) NOT NULL,
   `startingprice` int(30) NOT NULL,
@@ -41,24 +43,25 @@ CREATE TABLE `bidding` (
   `viewnum` int(200) NOT NULL DEFAULT 0,
   `state` int(1) NOT NULL DEFAULT 0,
   `isbid` int(1) DEFAULT NULL,
-  `winner` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `winner` int(11) DEFAULT NULL,
+  PRIMARY KEY (`itemid`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
 --
 -- 转存表中的数据 `bidding`
 --
 
 INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reserveprice`, `currentprice`, `endtime`, `description`, `userid`, `buyer`, `viewnum`, `state`, `isbid`, `winner`) VALUES
-(2, 'dsvb', '2', 34, 345, 34, '2022-12-20 17:49:00', 'dfsb', 0, 0, 0, 0, 0, NULL),
-(3, 'asdfg', '3', 345, 2345, 345, '2022-12-24 17:59:00', 'dfab', NULL, NULL, 0, 0, 0, NULL),
-(4, 'ds,amgn', '2', 324, 325, 324, '2022-12-16 18:01:00', 'dmsgnlk', NULL, NULL, 0, 0, 0, NULL),
-(5, 'ds,mangl', '2', 324, 3425, 324, '2022-12-31 18:04:00', 'dsljfgn', NULL, NULL, 0, 0, 0, NULL),
-(6, 'klfdgnkl', '2', 435, 435, 435, '2022-12-29 18:32:00', 'lnsglj', NULL, NULL, 0, 0, 0, NULL),
-(8, 'cute cats', 'others', 21, 22, 21, '2022-12-20 20:00:00', 'sss', 39, NULL, 0, 0, NULL, 38),
-(10, 'sss', 'home&kitchen', 23, 24, 23, '2022-12-20 21:00:00', 'sss', 39, NULL, 0, 0, NULL, 39),
-(12, 'kitchen', 'home&kitchen', 56, 57, 81, '2022-12-19 12:00:00', 'jjj', 39, NULL, 0, 0, NULL, NULL),
-(14, 'choujuanbao', 'others', 45, 65, 61, '2022-12-25 17:50:30', 'shijiniangniang', 39, NULL, 0, 0, NULL, NULL),
-(15, 'basketball', 'appliances', 56, 56, 56, '2022-12-17 12:00:00', 'bsk', 39, NULL, 0, 0, NULL, NULL);
+(1, 'dsvb', '2', 34, 345, 34, '2022-12-20 17:49:00', 'dfsb', 0, 0, 0, 0, 0, NULL),
+(2, 'asdfg', '3', 345, 2345, 345, '2022-12-24 17:59:00', 'dfab', NULL, NULL, 0, 0, 0, NULL),
+(3, 'ds,amgn', '2', 324, 325, 324, '2022-12-16 18:01:00', 'dmsgnlk', NULL, NULL, 0, 0, 0, NULL),
+(4, 'ds,mangl', '2', 324, 3425, 324, '2022-12-31 18:04:00', 'dsljfgn', NULL, NULL, 0, 0, 0, NULL),
+(5, 'klfdgnkl', '2', 435, 435, 435, '2022-12-29 18:32:00', 'lnsglj', NULL, NULL, 0, 0, 0, NULL),
+(6, 'cute cats', 'others', 21, 22, 21, '2022-12-20 20:00:00', 'sss', 39, NULL, 0, 0, NULL, 38),
+(7, 'sss', 'home&kitchen', 23, 24, 23, '2022-12-20 21:00:00', 'sss', 39, NULL, 0, 0, NULL, 39),
+(8, 'kitchen', 'home&kitchen', 56, 57, 81, '2022-12-19 12:00:00', 'jjj', 39, NULL, 0, 0, NULL, NULL),
+(9, 'choujuanbao', 'others', 45, 65, 61, '2022-12-25 17:50:30', 'shijiniangniang', 39, NULL, 0, 0, NULL, NULL),
+(10, 'basketball', 'appliances', 56, 56, 56, '2022-12-17 12:00:00', 'bsk', 39, NULL, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -66,13 +69,15 @@ INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reser
 -- 表的结构 `biddinghistory`
 --
 
-CREATE TABLE `biddinghistory` (
-  `bidid` int(8) NOT NULL,
+DROP TABLE IF EXISTS `biddinghistory`;
+CREATE TABLE IF NOT EXISTS `biddinghistory` (
+  `bidid` int(8) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `itemid` int(8) NOT NULL,
   `biddingprice` int(20) NOT NULL,
-  `biddingdate` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `biddingdate` datetime DEFAULT NULL,
+  PRIMARY KEY (`bidid`)
+) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `biddinghistory`
@@ -80,30 +85,30 @@ CREATE TABLE `biddinghistory` (
 
 INSERT INTO `biddinghistory` (`bidid`, `userid`, `itemid`, `biddingprice`, `biddingdate`) VALUES
 (1, 3, 2, 60, NULL),
-(2, 1, 17, 60, NULL),
+(2, 1, 10, 60, NULL),
 (3, 1, 4, 100, NULL),
 (4, 1, 6, 2100, NULL),
 (5, 1, 12, 80, NULL),
 (6, 3, 17, 70, NULL),
-(7, 30, 17, 71, NULL),
-(8, 1, 17, 72, NULL),
-(9, 30, 17, 73, NULL),
-(10, 2, 17, 74, NULL),
-(11, 1, 17, 75, NULL),
+(7, 30, 11, 71, NULL),
+(8, 1, 12, 72, NULL),
+(9, 30, 14, 73, NULL),
+(10, 2, 15, 74, NULL),
+(11, 1, 16, 75, NULL),
 (12, 3, 17, 80, NULL),
 (13, 1, 5, 150, NULL),
 (14, 1, 13, 498, NULL),
 (15, 31, 17, 85, NULL),
-(16, 30, 20, 600, NULL),
-(17, 30, 21, 900, NULL),
+(16, 30, 8, 600, NULL),
+(17, 30, 3, 900, NULL),
 (18, 30, 6, 2180, NULL),
-(19, 31, 22, 1000, NULL),
+(19, 31, 9, 1000, NULL),
 (20, 31, 6, 2300, NULL),
 (21, 33, 17, 90, NULL),
 (22, 33, 5, 155, NULL),
-(23, 33, 5, 160, NULL),
+(23, 33, 18, 160, NULL),
 (24, 33, 4, 120, NULL),
-(25, 33, 5, 170, NULL),
+(25, 33, 19, 170, NULL),
 (34, 39, 14, 51, '2022-11-21 20:40:52'),
 (33, 39, 14, 50, '2022-11-21 20:39:55'),
 (32, 39, 14, 46, '2022-11-21 20:39:40'),
@@ -123,7 +128,8 @@ INSERT INTO `biddinghistory` (`bidid`, `userid`, `itemid`, `biddingprice`, `bidd
 -- 表的结构 `feedback`
 --
 
-CREATE TABLE `feedback` (
+DROP TABLE IF EXISTS `feedback`;
+CREATE TABLE IF NOT EXISTS `feedback` (
   `userid` int(11) NOT NULL,
   `itemid` int(11) NOT NULL,
   `score` int(5) NOT NULL,
@@ -174,7 +180,8 @@ INSERT INTO `feedback` (`userid`, `itemid`, `score`, `message`, `reviewdate`) VA
 -- 表的结构 `role`
 --
 
-CREATE TABLE `role` (
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE IF NOT EXISTS `role` (
   `id` int(11) NOT NULL,
   `name` varchar(20) CHARACTER SET latin1 NOT NULL,
   `permissions` text CHARACTER SET latin1 NOT NULL
@@ -194,15 +201,18 @@ INSERT INTO `role` (`id`, `name`, `permissions`) VALUES
 -- 表的结构 `userinfo`
 --
 
-CREATE TABLE `userinfo` (
-  `userid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `userinfo`;
+CREATE TABLE IF NOT EXISTS `userinfo` (
+  `userid` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
   `password` varchar(128) NOT NULL,
   `fullname` varchar(30) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `jointime` datetime DEFAULT NULL,
-  `role` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `role` int(11) DEFAULT NULL,
+  PRIMARY KEY (`userid`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `userinfo`
@@ -237,11 +247,13 @@ INSERT INTO `userinfo` (`userid`, `username`, `password`, `fullname`, `email`, `
 -- 表的结构 `watchlist`
 --
 
-CREATE TABLE `watchlist` (
-  `watchid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `watchlist`;
+CREATE TABLE IF NOT EXISTS `watchlist` (
+  `watchid` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
-  `itemid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `itemid` int(11) NOT NULL,
+  PRIMARY KEY (`watchid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 --
 -- 转存表中的数据 `watchlist`
@@ -250,64 +262,8 @@ CREATE TABLE `watchlist` (
 INSERT INTO `watchlist` (`watchid`, `userid`, `itemid`) VALUES
 (1, 44, 3),
 (2, 44, 15),
-(3, 1, 3);
-
---
--- 转储表的索引
---
-
---
--- 表的索引 `bidding`
---
-ALTER TABLE `bidding`
-  ADD PRIMARY KEY (`itemid`);
-
---
--- 表的索引 `biddinghistory`
---
-ALTER TABLE `biddinghistory`
-  ADD PRIMARY KEY (`bidid`);
-
---
--- 表的索引 `userinfo`
---
-ALTER TABLE `userinfo`
-  ADD PRIMARY KEY (`userid`),
-  ADD UNIQUE KEY `username` (`username`);
-
---
--- 表的索引 `watchlist`
---
-ALTER TABLE `watchlist`
-  ADD PRIMARY KEY (`watchid`);
-
---
--- 在导出的表使用AUTO_INCREMENT
---
-
---
--- 使用表AUTO_INCREMENT `bidding`
---
-ALTER TABLE `bidding`
-  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- 使用表AUTO_INCREMENT `biddinghistory`
---
-ALTER TABLE `biddinghistory`
-  MODIFY `bidid` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
-
---
--- 使用表AUTO_INCREMENT `userinfo`
---
-ALTER TABLE `userinfo`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
-
---
--- 使用表AUTO_INCREMENT `watchlist`
---
-ALTER TABLE `watchlist`
-  MODIFY `watchid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+(3, 1, 3),
+(4, 38, 3);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
