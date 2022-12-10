@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- 主机： 127.0.0.1:3306
--- 生成日期： 2022-11-25 18:44:08
--- 服务器版本： 5.7.36
--- PHP 版本： 7.4.26
+-- 主机： 127.0.0.1
+-- 生成日期： 2022-12-10 18:05:05
+-- 服务器版本： 10.4.11-MariaDB
+-- PHP 版本： 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -26,7 +27,6 @@ SET time_zone = "+00:00";
 --
 -- 表的结构 `bidding`
 --
-
 DROP TABLE IF EXISTS `bidding`;
 CREATE TABLE IF NOT EXISTS `bidding` (
   `itemid` int(11) NOT NULL AUTO_INCREMENT,
@@ -51,23 +51,22 @@ CREATE TABLE IF NOT EXISTS `bidding` (
 --
 
 INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reserveprice`, `currentprice`, `endtime`, `description`, `userid`, `buyer`, `viewnum`, `state`, `isbid`, `winner`) VALUES
-(2, 'dsvb', '2', 34, 345, 34, '2022-11-05 17:49:00', 'dfsb', 0, 0, 0, 0, 0, NULL),
-(3, 'asdfg', '3', 345, 2345, 345, '2022-11-04 17:59:00', 'dfab', NULL, NULL, 0, 0, 0, NULL),
-(4, 'ds,amgn', '2', 324, 325, 324, '2022-11-04 18:01:00', 'dmsgnlk', NULL, NULL, 0, 0, 0, NULL),
-(5, 'ds,mangl', '2', 324, 3425, 324, '2022-11-02 18:04:00', 'dsljfgn', NULL, NULL, 0, 0, 0, NULL),
-(6, 'klfdgnkl', '2', 435, 435, 435, '2022-11-09 18:32:00', 'lnsglj', NULL, NULL, 0, 0, 0, NULL),
-(8, 'cute cats', 'others', 21, 22, 21, '2022-11-20 20:00:00', 'sss', 39, NULL, 0, 0, NULL, 38),
-(10, 'sss', 'home&kitchen', 23, 24, 23, '2022-11-20 21:00:00', 'sss', 39, NULL, 0, 0, NULL, 39),
-(12, 'kitchen', 'home&kitchen', 56, 57, 81, '2022-12-12 12:00:00', 'jjj', 39, NULL, 0, 0, NULL, NULL),
-(14, 'choujuanbao', 'others', 45, 65, 61, '2022-11-25 17:50:30', 'shijiniangniang', 39, NULL, 0, 0, NULL, NULL),
-(15, 'basketball', 'appliances', 56, 56, 56, '2022-11-30 12:00:00', 'bsk', 39, NULL, 0, 0, NULL, NULL);
+(2, 'dsvb', '2', 34, 345, 34, '2022-12-20 17:49:00', 'dfsb', 0, 0, 0, 0, 0, NULL),
+(3, 'asdfg', '3', 345, 2345, 345, '2022-12-24 17:59:00', 'dfab', NULL, NULL, 0, 0, 0, NULL),
+(4, 'ds,amgn', '2', 324, 325, 324, '2022-12-16 18:01:00', 'dmsgnlk', NULL, NULL, 0, 0, 0, NULL),
+(5, 'ds,mangl', '2', 324, 3425, 324, '2022-12-31 18:04:00', 'dsljfgn', NULL, NULL, 0, 0, 0, NULL),
+(6, 'klfdgnkl', '2', 435, 435, 435, '2022-12-29 18:32:00', 'lnsglj', NULL, NULL, 0, 0, 0, NULL),
+(8, 'cute cats', 'others', 21, 22, 21, '2022-12-20 20:00:00', 'sss', 39, NULL, 0, 0, NULL, 38),
+(10, 'sss', 'home&kitchen', 23, 24, 23, '2022-12-20 21:00:00', 'sss', 39, NULL, 0, 0, NULL, 39),
+(12, 'kitchen', 'home&kitchen', 56, 57, 81, '2022-12-19 12:00:00', 'jjj', 39, NULL, 0, 0, NULL, NULL),
+(14, 'choujuanbao', 'others', 45, 65, 61, '2022-12-25 17:50:30', 'shijiniangniang', 39, NULL, 0, 0, NULL, NULL),
+(15, 'basketball', 'appliances', 56, 56, 56, '2022-12-17 12:00:00', 'bsk', 39, NULL, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `biddinghistory`
 --
-
 DROP TABLE IF EXISTS `biddinghistory`;
 CREATE TABLE IF NOT EXISTS `biddinghistory` (
   `bidid` int(8) NOT NULL AUTO_INCREMENT,
@@ -126,7 +125,6 @@ INSERT INTO `biddinghistory` (`bidid`, `userid`, `itemid`, `biddingprice`, `bidd
 --
 -- 表的结构 `feedback`
 --
-
 DROP TABLE IF EXISTS `feedback`;
 CREATE TABLE IF NOT EXISTS `feedback` (
   `userid` int(11) NOT NULL,
@@ -141,9 +139,37 @@ CREATE TABLE IF NOT EXISTS `feedback` (
 --
 
 INSERT INTO `feedback` (`userid`, `itemid`, `score`, `message`, `reviewdate`) VALUES
-(30, 6, 5, 'Looks cool XD', '2018-03-16'),
-(1, 6, 1, 'oh well', '2018-03-16'),
-(31, 6, 3, 'this is not that good', '2018-03-16');
+(30, 6, 5, 'Looks cool XD', '2022-11-16'),
+(1, 6, 1, 'oh well', '2022-11-16'),
+(31, 6, 3, 'this is not that good', '2022-11-16'),
+(38, 5, 3, 'it is good', '2022-12-10'),
+(38, 14, 4, 'nice', '2022-12-10'),
+(40, 10, 1, 'haha', '2022-12-10'),
+(40, 5, 2, 'niu', '2022-12-10'),
+(40, 15, 2, 'niu', '2022-12-10'),
+(40, 14, 2, 'niu', '2022-12-10'),
+(41, 5, 2, 'niu', '2022-12-10'),
+(41, 15, 5, '666', '2022-12-10'),
+(41, 14, 5, '666', '2022-12-10'),
+(39, 3, 5, '666', '2022-12-10'),
+(39, 10, 5, '666', '2022-12-10'),
+(39, 14, 5, '666', '2022-12-10'),
+(39, 15, 5, '666', '2022-12-10'),
+(39, 4, 3, 'nice!!!', '2022-12-10'),
+(30, 3, 3, 'nice!!!', '2022-12-10'),
+(30, 6, 3, 'nice!!!', '2022-12-10'),
+(30, 12, 3, 'nice!!!', '2022-12-10'),
+(30, 3, 3, 'nice!!!', '2022-12-10'),
+(37, 8, 3, 'nice!!!', '2022-12-10'),
+(37, 6, 4, 'nice!!!', '2022-12-10'),
+(37, 4, 3, 'not bad', '2022-12-10'),
+(37, 12, 5, 'not bad', '2022-12-10'),
+(38, 2, 1, 'bad!!!', '2022-12-10'),
+(38, 4, 3, 'it is good', '2022-12-10'),
+(38, 6, 4, 'hhhhhhhchengongl', '2022-12-10'),
+(38, 8, 1, 'chengonglma ', '2022-12-10'),
+(38, 3, 5, 'hasihimeiyou', '2022-12-10'),
+(38, 12, 5, 'it is good', '2022-12-10');
 
 -- --------------------------------------------------------
 
@@ -171,7 +197,6 @@ INSERT INTO `role` (`id`, `name`, `permissions`) VALUES
 --
 -- 表的结构 `userinfo`
 --
-
 DROP TABLE IF EXISTS `userinfo`;
 CREATE TABLE IF NOT EXISTS `userinfo` (
   `userid` int(11) NOT NULL AUTO_INCREMENT,
@@ -216,7 +241,6 @@ INSERT INTO `userinfo` (`userid`, `username`, `password`, `fullname`, `email`, `
 --
 -- 表的结构 `watchlist`
 --
-
 DROP TABLE IF EXISTS `watchlist`;
 CREATE TABLE IF NOT EXISTS `watchlist` (
   `userid` int(11) NOT NULL,
@@ -224,6 +248,64 @@ CREATE TABLE IF NOT EXISTS `watchlist` (
   `watching` int(1) NOT NULL,
   PRIMARY KEY (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+COMMIT;
+--
+-- 转存表中的数据 `watchlist`
+--
+
+INSERT INTO `watchlist` (`userid`, `itemid`, `watching`) VALUES
+(38, 12, 0);
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `bidding`
+--
+ALTER TABLE `bidding`
+  ADD PRIMARY KEY (`itemid`);
+
+--
+-- 表的索引 `biddinghistory`
+--
+ALTER TABLE `biddinghistory`
+  ADD PRIMARY KEY (`bidid`);
+
+--
+-- 表的索引 `userinfo`
+--
+ALTER TABLE `userinfo`
+  ADD PRIMARY KEY (`userid`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- 表的索引 `watchlist`
+--
+ALTER TABLE `watchlist`
+  ADD PRIMARY KEY (`userid`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `bidding`
+--
+ALTER TABLE `bidding`
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- 使用表AUTO_INCREMENT `biddinghistory`
+--
+ALTER TABLE `biddinghistory`
+  MODIFY `bidid` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- 使用表AUTO_INCREMENT `userinfo`
+--
+ALTER TABLE `userinfo`
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
