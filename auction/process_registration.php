@@ -1,6 +1,6 @@
 <?php 
   session_start();
-  include_once("header.php");
+  #include_once("header.php");
   include 'database.php'; //Connect to the database
   //When user submit the register form 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {

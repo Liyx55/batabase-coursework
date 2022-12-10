@@ -172,7 +172,41 @@
           <?php }$conn->close();?>
         </table>
       </div>
-
+<div>
+  <p>Comment and Rate:</p>
+  <form method="POST" action="comment_result.php">
+    
+    <div class="form-group row">
+      <label for="Score" class="col-sm-3 col-form-label text-right">Score <span class="text-danger"></span></label>
+    <div class="col-sm-6">
+        <input type="text" class="form-control" name="Score" required>
+    </div>
+    </div>
+    <div class="form-group row">
+      <label for="Message" class="col-sm-3 col-form-label text-right">Message <span class="text-danger"></span></label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control" name="Message" required>
+      </div>
+    </div>
+    <!-- Submit button -->
+    <div class="form-group row">
+      <button type="submit" class="btn btn-primary form-control">submit</button>
+    </div>
+  </form>
+  <!-- <table class="table table-striped" style='text-align:center'>
+    <tr>
+      <th>Score(0-5)</th>
+      <th>Message</th>
+    </tr>
+    <tr>
+    <td><input type="text" class="form-message" name="Score" required></td>
+    <td><input type="text" class="form-message" name="Message" required></td>
+    </tr>
+  </table>
+  <div class="form-group row">
+      <button type="submit" class="btn btn-primary form-control">submit</button>
+    </div> -->
+</div>
 <?php $conn->close();?>
 <?php include_once("footer.php")?>
 
