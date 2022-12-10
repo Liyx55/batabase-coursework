@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- 主机： 127.0.0.1
--- 生成日期： 2022-12-10 18:05:05
--- 服务器版本： 10.4.11-MariaDB
--- PHP 版本： 7.4.3
+-- 主机： localhost
+-- 生成日期： 2022-12-10 19:37:12
+-- 服务器版本： 10.4.21-MariaDB
+-- PHP 版本： 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -27,9 +26,9 @@ SET time_zone = "+00:00";
 --
 -- 表的结构 `bidding`
 --
-DROP TABLE IF EXISTS `bidding`;
-CREATE TABLE IF NOT EXISTS `bidding` (
-  `itemid` int(11) NOT NULL AUTO_INCREMENT,
+
+CREATE TABLE `bidding` (
+  `itemid` int(11) NOT NULL,
   `itemname` varchar(30) NOT NULL,
   `category` varchar(30) NOT NULL,
   `startingprice` int(30) NOT NULL,
@@ -39,12 +38,11 @@ CREATE TABLE IF NOT EXISTS `bidding` (
   `description` varchar(30) NOT NULL,
   `userid` int(20) DEFAULT NULL,
   `buyer` int(20) DEFAULT NULL,
-  `viewnum` int(200) NOT NULL DEFAULT '0',
-  `state` int(1) NOT NULL DEFAULT '0',
+  `viewnum` int(200) NOT NULL DEFAULT 0,
+  `state` int(1) NOT NULL DEFAULT 0,
   `isbid` int(1) DEFAULT NULL,
-  `winner` int(11) DEFAULT NULL,
-  PRIMARY KEY (`itemid`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+  `winner` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- 转存表中的数据 `bidding`
@@ -67,15 +65,14 @@ INSERT INTO `bidding` (`itemid`, `itemname`, `category`, `startingprice`, `reser
 --
 -- 表的结构 `biddinghistory`
 --
-DROP TABLE IF EXISTS `biddinghistory`;
-CREATE TABLE IF NOT EXISTS `biddinghistory` (
-  `bidid` int(8) NOT NULL AUTO_INCREMENT,
+
+CREATE TABLE `biddinghistory` (
+  `bidid` int(8) NOT NULL,
   `userid` int(11) NOT NULL,
   `itemid` int(8) NOT NULL,
   `biddingprice` int(20) NOT NULL,
-  `biddingdate` datetime DEFAULT NULL,
-  PRIMARY KEY (`bidid`)
-) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+  `biddingdate` datetime DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `biddinghistory`
@@ -125,8 +122,8 @@ INSERT INTO `biddinghistory` (`bidid`, `userid`, `itemid`, `biddingprice`, `bidd
 --
 -- 表的结构 `feedback`
 --
-DROP TABLE IF EXISTS `feedback`;
-CREATE TABLE IF NOT EXISTS `feedback` (
+
+CREATE TABLE `feedback` (
   `userid` int(11) NOT NULL,
   `itemid` int(11) NOT NULL,
   `score` int(5) NOT NULL,
@@ -177,8 +174,7 @@ INSERT INTO `feedback` (`userid`, `itemid`, `score`, `message`, `reviewdate`) VA
 -- 表的结构 `role`
 --
 
-DROP TABLE IF EXISTS `role`;
-CREATE TABLE IF NOT EXISTS `role` (
+CREATE TABLE `role` (
   `id` int(11) NOT NULL,
   `name` varchar(20) CHARACTER SET latin1 NOT NULL,
   `permissions` text CHARACTER SET latin1 NOT NULL
@@ -197,18 +193,16 @@ INSERT INTO `role` (`id`, `name`, `permissions`) VALUES
 --
 -- 表的结构 `userinfo`
 --
-DROP TABLE IF EXISTS `userinfo`;
-CREATE TABLE IF NOT EXISTS `userinfo` (
-  `userid` int(11) NOT NULL AUTO_INCREMENT,
+
+CREATE TABLE `userinfo` (
+  `userid` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(128) NOT NULL,
   `fullname` varchar(30) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `jointime` datetime DEFAULT NULL,
-  `role` int(11) DEFAULT NULL,
-  PRIMARY KEY (`userid`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+  `role` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `userinfo`
@@ -234,27 +228,29 @@ INSERT INTO `userinfo` (`userid`, `username`, `password`, `fullname`, `email`, `
 (40, 'legnahsurb', 'faa401313e2dea7b15f4a7850f7c2a5e', 'a', 'luanqi2000@126.com', '2022-11-22 16:32:22', 1),
 (41, 'nji', '979aab91652e462413e7d2a42b00d70c', 'sed', 'luanqi20000524@qq.com', '2022-11-23 09:06:50', 1),
 (42, 'db', '25f9e794323b453885f5181f1b624d0b', 'database', 'db@123.com', '2022-11-23 10:01:17', 1),
-(43, 'db456@123.com', 'cbc3f649c0c1e814df3cb85c3f83380a', 'db456', 'db456@123.com', '2022-11-25 15:14:46', 1);
+(43, 'db456@123.com', 'cbc3f649c0c1e814df3cb85c3f83380a', 'db456', 'db456@123.com', '2022-11-25 15:14:46', 1),
+(44, 't1', '4297f44b13955235245b2497399d7a93', 't1', 't1@qq.cpm', '2022-12-10 17:41:11', 1);
 
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `watchlist`
 --
-DROP TABLE IF EXISTS `watchlist`;
-CREATE TABLE IF NOT EXISTS `watchlist` (
+
+CREATE TABLE `watchlist` (
+  `watchid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
-  `itemid` int(8) NOT NULL,
-  `watching` int(1) NOT NULL,
-  PRIMARY KEY (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-COMMIT;
+  `itemid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- 转存表中的数据 `watchlist`
 --
 
-INSERT INTO `watchlist` (`userid`, `itemid`, `watching`) VALUES
-(38, 12, 0);
+INSERT INTO `watchlist` (`watchid`, `userid`, `itemid`) VALUES
+(1, 44, 3),
+(2, 44, 15),
+(3, 1, 3);
 
 --
 -- 转储表的索引
@@ -283,7 +279,7 @@ ALTER TABLE `userinfo`
 -- 表的索引 `watchlist`
 --
 ALTER TABLE `watchlist`
-  ADD PRIMARY KEY (`userid`);
+  ADD PRIMARY KEY (`watchid`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT
@@ -305,7 +301,13 @@ ALTER TABLE `biddinghistory`
 -- 使用表AUTO_INCREMENT `userinfo`
 --
 ALTER TABLE `userinfo`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- 使用表AUTO_INCREMENT `watchlist`
+--
+ALTER TABLE `watchlist`
+  MODIFY `watchid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
