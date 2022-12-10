@@ -21,12 +21,12 @@
             <div class="form-group">
               <select class="form-control" name="category">
                 <option value="" disabled selected>Select your category</option>
-                <option value="bedroom">bedroom</option>
-                <option value="living Room">living Room</option>
-                <option value="kitchen">kitchen</option>
-                <option value="bathroom">bathroom</option>
-                <option value="study">study</option>
-                <option value="appliances">appliances</option>
+                <option value="appliances">bedroom</option>
+                <option value="beauty">living Room</option>
+                <option value="colthing&accessories">kitchen</option>
+                <option value="grocery&food">bathroom</option>
+                <option value="home&kitchen">study</option>
+                <option value="others">appliances</option>
               </select>
             </div>
           </div>
