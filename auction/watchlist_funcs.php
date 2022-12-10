@@ -4,7 +4,9 @@
  session_start(); 
  $user_id = $_SESSION['UserId']; 
  $item_id = $_SESSION['Item_Id']; 
+ //$functionname = $_SESSION['functionname'];
  $functionname = $_GET['functionname'];
+ //echo $functionname;
 
 if ($functionname == "add_to_watchlist") {
   // TODO: Update database and return success/failure.

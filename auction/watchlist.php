@@ -58,11 +58,13 @@
       $search = $_GET['search']; // Get What user entered in the search bar
       $category = $_GET['category']; // Get user's selected category from the list
       $sortby = $_GET['order_by']; //Get user's selected sort by option
+      session_start();
+      $userId =  $_SESSION['UserId'];
 
       //echo '<script>alert("$search")</script>';
       //GROUP BY category
       //AND endtime >= CURRENT_TIMESTAMP
-      $swlwatch = "SELECT itemid FROM watchlist";
+      $swlwatch = "SELECT itemid FROM watchlist where userid = $userId";
       $resultwatch = mysqli_query($conn,$swlwatch);
       while($row1 = mysqli_fetch_assoc($resultwatch)){
       $item_id = $row1['itemid'];
