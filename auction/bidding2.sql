@@ -266,6 +266,64 @@ INSERT INTO `watchlist` (`watchid`, `userid`, `itemid`) VALUES
 (4, 38, 3);
 COMMIT;
 
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `bidding`
+--
+ALTER TABLE `bidding`
+  ADD PRIMARY KEY (`itemid`);
+
+--
+-- 表的索引 `biddinghistory`
+--
+ALTER TABLE `biddinghistory`
+  ADD PRIMARY KEY (`bidid`);
+
+--
+-- 表的索引 `userinfo`
+--
+ALTER TABLE `userinfo`
+  ADD PRIMARY KEY (`userid`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- 表的索引 `watchlist`
+--
+ALTER TABLE `watchlist`
+  ADD PRIMARY KEY (`watchid`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `bidding`
+--
+ALTER TABLE `bidding`
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- 使用表AUTO_INCREMENT `biddinghistory`
+--
+ALTER TABLE `biddinghistory`
+  MODIFY `bidid` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- 使用表AUTO_INCREMENT `userinfo`
+--
+ALTER TABLE `userinfo`
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- 使用表AUTO_INCREMENT `watchlist`
+--
+ALTER TABLE `watchlist`
+  MODIFY `watchid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
