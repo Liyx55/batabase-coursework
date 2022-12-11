@@ -3,8 +3,9 @@
 <?php require("utilities.php")?>
 
 <div class="container">
-
   <h2 class="my-3">Recommendations for you</h2>
+  <div class="container mt-5">
+  <ul class="list-group">
   <?php
     include 'database.php'; 
     $sql = "SELECT * FROM recommend";
@@ -21,6 +22,7 @@
     $search_col = 5;
     $cos = array();
     $cos[0] = 0;
+    global $base1;
     $base1 = 0;
 
 
@@ -129,6 +131,7 @@
     }
 
 // choose three products
+    global $res;
     $res = array();
     $b = 0;
     $c = 0;
@@ -154,11 +157,35 @@
         }
     }
     
-    echo $res[0][1]."<br/>";
-    echo $res[1][1]."<br/>";
-    echo $res[2][1]."<br/>";
+    #echo $res[0][1]."<br/>";
+    #echo $res[1][1]."<br/>";
+    #echo $res[2][1]."<br/>";
 
+    $userId =  $_SESSION['UserId']; 
+    $items=array();
+    array_push($items,$res[0][1]);
+    array_push($items,$res[1][1]);
+    array_push($items,$res[2][1]);
+    
+    #var_dump($items);
+    $sql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
+    FROM bidding
+    where  itemid in ($items[0],$items[1],$items[2])";
+    #echo $res[1][1]."<br/>";
+    $result = mysqli_query($conn, $sql);
+
+    while($row = mysqli_fetch_assoc($result)) 
+    {      
+        $item_id = $row['itemid'];
+        $title = $row['itemname'];
+        $description = $row['description'];
+        $price = $row['highest_price'];
+        $end_time = new DateTime($row['endtime']);
+        $num_bids = $row['viewnum'];
+        print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
+        
+        }
   ?>  
+  </ul>
+  </div>
 </div>
-
-  
