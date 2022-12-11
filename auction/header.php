@@ -68,11 +68,16 @@
           <li class="nav-item">
             <a class="nav-link" href="mylistings.php">My Listing</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="mybids.php">My Bids</a>
+          </li>
+          <li class="nav-item ml-3">
+            <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
+          </li>');
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <!-- Buyer and seller buttons -->
-          <li><a class="btn btn-success my-2 my-sm-0" href="mybids.php" role="button">My Bid</a></li>
-          <li><a class="btn btn-danger my-2 my-sm-0" href="create_auction.php" role="button">Sell</a></li>
+          <li><a class="btn btn-success my-2 my-sm-0" href="myprofile.php" role="button">My Profile</a></li>
         </form>
       </div>
     </nav>
