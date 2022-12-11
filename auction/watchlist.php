@@ -80,7 +80,14 @@
             $description = $row['description'];
             $price = $row['highest_price'];
             $end_time = new DateTime($row['endtime']);
-            $num_bids = $row['viewnum'];
+            $nums="SELECT count(*)as numbers FROM biddinghistory where itemid=$item_id group by itemid";
+            $numsresult=mysqli_query($conn,$nums);
+            $row1 = mysqli_fetch_assoc($numsresult);
+            if($row1['numbers']==0){
+              $num_bids=0;
+            }else{
+              $num_bids = $row1['numbers'];
+            }
             /*
             出价次数现在用的是浏览次数 这个后面要修改
             */
@@ -103,7 +110,14 @@
             $description = $row['description'];
             $price = $row['highest_price'];
             $end_time = new DateTime($row['endtime']);
-            $num_bids = $row['viewnum'];
+            $nums="SELECT count(*)as numbers FROM biddinghistory where itemid=$item_id group by itemid";
+            $numsresult=mysqli_query($conn,$nums);
+            $row1 = mysqli_fetch_assoc($numsresult);
+            if($row1['numbers']==0){
+              $num_bids=0;
+            }else{
+              $num_bids = $row1['numbers'];
+            }
             // Print out item details using the print_listing_li function defined in utilities.php
             print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
           }
@@ -127,7 +141,14 @@
             $description = $row['description'];
             $price = $row['highest_price'];
             $end_time = new DateTime($row['endtime']);
-            $num_bids = $row['viewnum'];
+            $nums="SELECT count(*)as numbers FROM biddinghistory where itemid=$item_id group by itemid";
+            $numsresult=mysqli_query($conn,$nums);
+            $row1 = mysqli_fetch_assoc($numsresult);
+            if($row1['numbers']==0){
+              $num_bids=0;
+            }else{
+              $num_bids = $row1['numbers'];
+            }
             // Print out item details using the print_listing_li function defined in utilities.php
             print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
           };
@@ -144,7 +165,14 @@
             $description = $row['description'];
             $price = $row['highest_price'];
             $end_time = new DateTime($row['endtime']);
-            $num_bids = $row['viewnum'];
+            $nums="SELECT count(*)as numbers FROM biddinghistory where itemid=$item_id group by itemid";
+            $numsresult=mysqli_query($conn,$nums);
+            $row1 = mysqli_fetch_assoc($numsresult);
+            if($row1['numbers']==0){
+              $num_bids=0;
+            }else{
+              $num_bids = $row1['numbers'];
+            }
             // Print out item details using the print_listing_li function defined in utilities.php
             print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
           };
@@ -161,7 +189,14 @@
             $description = $row['description'];
             $price = $row['highest_price'];
             $end_time = new DateTime($row['endtime']);
-            $num_bids = $row['viewnum'];
+            $nums="SELECT count(*)as numbers FROM biddinghistory where itemid=$item_id group by itemid";
+            $numsresult=mysqli_query($conn,$nums);
+            $row1 = mysqli_fetch_assoc($numsresult);
+            if($row1['numbers']==0){
+              $num_bids=0;
+            }else{
+              $num_bids = $row1['numbers'];
+            }
             // Print out item details using the print_listing_li function defined in utilities.php
             print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
           };
@@ -178,7 +213,14 @@
           $description = $row['description'];
           $price = $row['highest_price'];
           $end_time = new DateTime($row['endtime']);
-          $num_bids = $row['viewnum'];
+          $nums="SELECT count(*)as numbers FROM biddinghistory where itemid=$item_id group by itemid";
+          $numsresult=mysqli_query($conn,$nums);
+          $row1 = mysqli_fetch_assoc($numsresult);
+          if($row1['numbers']==0){
+            $num_bids=0;
+          }else{
+            $num_bids = $row1['numbers'];
+          }
           // Print out item details using the print_listing_li function defined in utilities.php
           print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
         };
