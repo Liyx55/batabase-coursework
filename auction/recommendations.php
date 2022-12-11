@@ -43,7 +43,7 @@
         $base2 = 0;
         if($x!=$search_col){
             
-            echo "Cos(".$array[$search_col][0].",".$array[$x][0].")=";
+            // echo "Cos(".$array[$search_col][0].",".$array[$x][0].")=";
             
             for($y=1;$y<9;$y++){
                 //计算分子
@@ -57,11 +57,9 @@
             }
             $base2 = sqrt($base2);
             $cos[$x] = ($sum/$base1)/$base2;
-            echo $cos[$x]."<br/>";
+            // echo $cos[$x]."<br/>";
         }
     }
-
-
 
     for($x=0; $x<$col_num; $x++){
         if($x!=$search_col){
@@ -116,7 +114,6 @@
         }
     }
 
-
     $x1 = $recommend_user1[0][1];
     $x2 = $recommend_user1[1][1];
     $x3 = $recommend_user1[2][1];
@@ -130,7 +127,6 @@
 
         }
     }
-
 
 // choose three products
     $res = array();
@@ -158,8 +154,6 @@
         }
     }
     
-
-
     echo $res[0][1]."<br/>";
     echo $res[1][1]."<br/>";
     echo $res[2][1]."<br/>";
