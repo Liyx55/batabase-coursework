@@ -5,7 +5,7 @@
   // database query.
   include 'database.php'; // Connect to the database
   #include 'process_registration.php';
-  session_start();
+  #session_start();
   #$_SESSION['logged_in'] = false;
   #$_SESSION['account_type'] = 'seller'; 
   error_reporting(E_ERROR | E_PARSE);
@@ -37,6 +37,7 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"> 
           <?php
+            session_start();
             // Displays either login or logout on the right, depending on user's current status (session).
             if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
               $email = $_SESSION['Email'] ;
