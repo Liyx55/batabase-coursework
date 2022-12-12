@@ -13,5 +13,5 @@
     }
     //Background running 'buyer_email.php' to check if any auction ended,
     //and send auto email to winner and seller notify them the result.
-    #require_once 'buyer_email.php'; 
+    //require_once 'buyer_email.php'; 
 ?>
