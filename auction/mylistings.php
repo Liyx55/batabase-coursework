@@ -21,12 +21,15 @@ session_start();
 
 
   $_SESSION['logged_in'] = true;
-  $userId =  $_SESSION['UserId']; 
-  
+  $userId =  $_SESSION['UserId'];
   //TODO register之后没有办法拿到userid
     // Check user's credentials (cookie/session).
-  $sql = "SELECT itemid, itemname, description, state, category, currentprice, endtime, winner FROM bidding where userid = $userId;";  
+  $sql = "SELECT * FROM bidding where userid = $userId;";  
   $result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+//$test = $row['itemname'];
+//echo $test;
+//echo "1";
 
            if($userId == null || $userId == ' ')
            {
@@ -34,7 +37,7 @@ session_start();
             // Redirect to index after 5 seconds
             header("refresh:5;url=login.php"); 
            }
-           elseif  ($result->num_rows > 0){          // Perform a query to pull up their auctions.
+           elseif($result->num_rows > 0){          // Perform a query to pull up their auctions.
                   while($row = mysqli_fetch_assoc($result)) {
                     $item_id = $row['itemid'];
                     $title = $row['itemname'];

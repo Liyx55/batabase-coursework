@@ -30,12 +30,13 @@ session_start();
   }
   else{
     while($row1 = mysqli_fetch_assoc($resulthistory)) {
-      { 
-        if(($resulthistory->num_rows > 0)){  
-          $item_id = $row1['itemid'];      
+    //echo "1";
+        if(($resulthistory->num_rows > 0)){
+          $item_id = $row1['itemid'];
           $sqlbid = "SELECT itemid, itemname, description, endtime, winner FROM bidding WHERE itemid='$item_id'";  
           $resultbid = mysqli_query($conn, $sqlbid);
-          while($row = mysqli_fetch_assoc($resultbid)){      
+          while($row = mysqli_fetch_assoc($resultbid)){
+        echo "3";  
             $itemid = $row['itemid'];
             $title = $row['itemname'];
             $desc = $row['description'];
@@ -48,7 +49,7 @@ session_start();
           else{
             echo 'You have not bid any products yet.';//TODO 没创建过bids的用户见面上并打印不出来这个
            }
-       }
+       
 
   }
       

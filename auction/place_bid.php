@@ -14,25 +14,7 @@
     $Result=mysqli_query($conn,$query);
     $row=mysqli_fetch_array($Result);
     $Buyer=$row['userId'];//TODO 改成userid就可以正常使用了
-    $buyerid = $row1['buyer']; //current hightest price buyer's userid
-
-    $sqlbuyeremail = "SELECT * FROM userinfo WHERE userid = $buyerid";
-    $buyeremailresult = mysqli_query($conn,$sqlbuyeremail);
-    $row2 = mysqli_fetch_assoc($buyeremailresult);
-    $buyeremail = $row2['email'];
-    $buyername = $row2['username'];
-
-    $sqlselleremail = "SELECT * FROM userinfo WHERE itemid = $Item_id";
-    $selleremailresult = mysqli_query($conn,$sqlselleremail);
-    $row3 = mysqli_fetch_assoc($selleremailresult);
-    $selleremail = $row3['email'];
-    $sellername = $row3['username'];
-
-    session_start();
-    $_SESSION['buyeremail'] = $buyeremail;
-    $_SESSION['buyername'] = $buyername;
-    $_SESSION['selleremail'] = $selleremail;
-    $_SESSION['sellername'] = $sellername;
+    //$buyerid = $row1['buyer']; //current hightest price buyer's userid
 
     if($Buyer==$userId)
      {
@@ -56,6 +38,7 @@
 
       
       echo"<script>alert( 'Your bid is successfull!');</script>";
+      //echo"<script>alert($userId);</script>";
       $insertprice = "INSERT INTO biddinghistory (bidid, userid, itemid, biddingprice, biddingdate) VALUES (NULL, $userId, $Item_id, $newprice, CURRENT_TIMESTAMP)";
       $run = mysqli_query($conn,$insertprice) or die(mysqli_error($conn));
       $updateprice = "UPDATE bidding SET currentprice = $newprice WHERE itemid = $Item_id";

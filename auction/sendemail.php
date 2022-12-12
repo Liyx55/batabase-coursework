@@ -1,15 +1,35 @@
-
+<?php include_once("header.php")?>
+<?php require("utilities.php")?>
 <?php
 //$email=$_GET["mail"];
 //$name=$_GET["username"];
+include_once("database.php");
 session_start();
-$buyeremail = "46372735@qq.com";//改成自己的邮箱测试
-//$buyeremail=$_SESSION['buyeremail']; //收件人的邮箱
-$buyername=$_SESSION['buyername']; //收件人的姓名 
-$test1 = "Dear ".$buyername."\r\n
-Someone else bidded the same item with higher bid than you, would you consider to place a higher bid? \r\n 
-Log back into your account to place a hgiher bid if you want :)\n
-Best Regards,\n Group3Auction Team"; //发送的邮件内容 html写的
+$Item_id = $_SESSION["Item_Id"];// Get info from ?:
+$userId = $_SESSION['UserId'];
+
+$query = "SELECT * FROM bidding WHERE itemid ='$Item_id'";
+$Result=mysqli_query($conn,$query);
+$row=mysqli_fetch_array($Result);
+$buyerid = $row['buyer']; //current hightest price buyer's userid
+//$itemname = $row['itemname'];
+
+
+$sqlbuyeremail = "SELECT * FROM userinfo WHERE userid = $buyerid";
+$result = mysqli_query($conn,$sqlbuyeremail);
+$row2 = mysqli_fetch_array($result);
+$buyeremail = $row2['email'];
+$buyername = $row2['username'];
+
+
+$sqlselleremail = "SELECT * FROM userinfo WHERE itemid = $Item_id";
+$result = mysqli_query($conn,$sqlselleremail);
+$row3 = mysqli_fetch_array($result);
+//$selleremail = $row3['email'];
+$sellername = $row3['username'];
+$selleremail = '463727335@qq.com';
+
+$test1 = "Someone else bidded the same item with higher bid than you."; //发送的邮件内容 html写的
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -38,7 +58,7 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
     $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); //回复的时候回复给哪个邮箱 建议和发件人一致
     //Content
     $mail->isHTML(true);                                  // 是否以HTML文档格式发送  发送后客户端可直接显示对应HTML内容
-    $mail->Subject = 'email title';
+    $mail->Subject = 'Outbid';
     $mail->Body = $test1;
     $mail->AltBody = 'your equipment does not support this email, please check in google chrome!';
 
@@ -47,10 +67,6 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
 
 
     $test2 = "New bids on your items.";
-    session_start();
-    $selleremail = "46372735@qq.com";//改成自己的邮箱测试
-    //$selleremail=$_SESSION['selleremail']; //收件人的邮箱
-    $sellername=$_SESSION['sellername']; //收件人的姓名 
     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 
     //服务器配置
@@ -71,7 +87,7 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
     $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); //回复的时候回复给哪个邮箱 建议和发件人一致
     //Content
     $mail->isHTML(true);                                  // 是否以HTML文档格式发送  发送后客户端可直接显示对应HTML内容
-    $mail->Subject = 'email title';
+    $mail->Subject = 'New bid';
     $mail->Body = $test2;
     $mail->AltBody = 'your equipment does not support this email, please check in google chrome!';
 
