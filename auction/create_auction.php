@@ -1,4 +1,4 @@
-<?php include_once("header.php")?>
+<?php include_once("header2.php")?>
 
 <?php
 /* (Uncomment this block to redirect people without selling privileges away from this page)

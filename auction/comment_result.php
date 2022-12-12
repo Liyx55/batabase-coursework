@@ -18,7 +18,7 @@
       VALUES ('$userId','$Item_id','$Score','$Message',NOW())";
       $run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
       echo '<script>alert("comment success!!!")</script>';
-      header("refresh:0.5;url=listing.php?item_id=$Item_id"); //Auto fresh to browse.php
+      header("refresh:0.5;url=listing.php?item_id=$Item_id"); 
     }
         
 }

@@ -8,7 +8,7 @@ include_once("database.php");
 session_start();
 #$_SESSION['logged_in'] = true;
 #$_SESSION['username'] = "test";
-$_SESSION['account_type'] = "buyer";
+#$_SESSION['account_type'] = "buyer";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
   {
@@ -17,8 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     //Hash password
     $password = md5($password); 
     //Queyr to get UserId based on user login form entry
-    $sql = "SELECT userid FROM userinfo WHERE Email = '$email' and Password = '$password'";
+    $sql = "SELECT userid, role FROM userinfo WHERE Email = '$email' and Password = '$password'";
     $result = mysqli_query($conn,$sql);
+    $row1 = mysqli_fetch_assoc($result);
     $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
     $count = mysqli_num_rows($result);
     // If result matched email and password, table row must be 1 row
@@ -29,7 +30,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
       $_SESSION['Email'] = $email;
       $userId = current($conn->query("SELECT userid FROM userinfo WHERE Email = '$email'")->fetch_assoc());
       $_SESSION['UserId'] = $userId; 
-      header("refresh:0.5;url= browse.php"); //Auto refresh to browse.php
+      #echo $row1['role'];
+      if($row1['role']=="2"){
+        #echo "kkk";
+        $_SESSION['account_type'] = "seller";
+        header("refresh:0.5;url= browse2.php");
+        
+      }
+        
+      else{
+        #echo gettype($row1['role']);
+        $_SESSION['account_type'] = "buyer";
+        header("refresh:0.5;url= browse1.php"); //Auto refresh to browse.php
+      }
+        
       echo '<script>alert("You are now logged in! You will be redirected shortly.")</script>';
     }else { //If no user found
       echo '<script>alert("Wrong username/password combination")</script>';
@@ -37,9 +51,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
       header("refresh:0.5; url=login.php"); //Auto refresh back to login.php
     }                   
   }
-
-
-// Redirect to index after 5 seconds
-header("refresh:0.5;url=index.php");
 $conn->close();
 ?>

@@ -1,4 +1,4 @@
-<?php include_once("header.php")?>
+<?php include_once("header1.php")?>
 <?php require("utilities.php")?>
 
 <?php
@@ -19,7 +19,7 @@
     if($Buyer==$userId)
      {
     	echo"<script>alert('This Is Your Product, You Can Not Bid Your Own Product!');</script>";
-      header("refresh:0.5;url= browse.php");
+      header("refresh:0.5;url= browse1.php");
     }
     else{
       $sqlprice = "SELECT * FROM bidding WHERE itemid = $Item_id";

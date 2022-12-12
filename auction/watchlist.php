@@ -1,4 +1,4 @@
-<?php include_once("header.php")?>
+<?php include_once("header1.php")?>
 <?php require("utilities.php")?>
 
 <div class="container">
@@ -6,7 +6,7 @@
   <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true):?> 
     <div id="searchSpecs">
       <!-- Filterings that allow user to re-arrange listings of items based on search bar, sortby, and category -->
-      <form method="GET" action="browse.php">
+      <form method="GET" action="browse1.php">
         <div class="row">
           <div class="col-md-5 pr-0">
             <!-- Search bar -->

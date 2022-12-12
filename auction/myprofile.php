@@ -1,5 +1,5 @@
 <?php 
-include_once("header.php");
+include_once("header1.php");
 require("utilities.php");
 include('database.php'); 
 session_start();
@@ -12,13 +12,13 @@ session_start();
 <table class="table table-striped" style='text-align:center' height=500px>
 <?php
     $userId =  $_SESSION['UserId']; 
-    $sqlhistory = "SELECT userid, username, password, fullname, email, jointime FROM userinfo where userid = $userId ";
+    $sqlhistory = "SELECT userid, username, password, fullname, email, jointime, role FROM userinfo where userid = $userId ";
     $resulthistory = mysqli_query($conn, $sqlhistory);
     if($userId == null || $userId == ' ')
     {
-    echo('<div class="text-center">Please Login!</div>');
+      echo('<div class="text-center">Please Login!</div>');
     // Redirect to index after 5 seconds
-    header("refresh:5;url=login.php"); 
+      header("refresh:5;url=login.php"); 
     }
     else{
         while($row = mysqli_fetch_assoc($resulthistory)) 
@@ -30,7 +30,7 @@ session_start();
         $fullname = $row['fullname'];
         $email = $row['email'];
         $jointime = $row['jointime'];
-        
+        $role=$row['role'];
         }
     }
 ?>
@@ -49,5 +49,11 @@ session_start();
     <tr>
       <th>jointime</th>
       <th><?php echo $jointime?></th>
+    </tr>
+    <tr>
+      <th>Role</th>
+      <th><?php if($role==1){echo "buyer";}
+      else{echo "seller";}      
+      ?></th>
     </tr>
   </table>
