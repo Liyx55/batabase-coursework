@@ -36,7 +36,7 @@ session_start();
           $sqlbid = "SELECT itemid, itemname, description, endtime, winner FROM bidding WHERE itemid='$item_id'";  
           $resultbid = mysqli_query($conn, $sqlbid);
           while($row = mysqli_fetch_assoc($resultbid)){
-        echo "3";  
+        //echo "3";  
             $itemid = $row['itemid'];
             $title = $row['itemname'];
             $desc = $row['description'];

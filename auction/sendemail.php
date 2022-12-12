@@ -12,6 +12,7 @@ $query = "SELECT * FROM bidding WHERE itemid ='$Item_id'";
 $Result=mysqli_query($conn,$query);
 $row=mysqli_fetch_array($Result);
 $buyerid = $row['buyer']; //current hightest price buyer's userid
+$sellerid = $row['userid'];
 //$itemname = $row['itemname'];
 
 
@@ -20,14 +21,15 @@ $result = mysqli_query($conn,$sqlbuyeremail);
 $row2 = mysqli_fetch_array($result);
 $buyeremail = $row2['email'];
 $buyername = $row2['username'];
+echo $buyeremail;
 
-
-$sqlselleremail = "SELECT * FROM userinfo WHERE itemid = $Item_id";
+$sqlselleremail = "SELECT * FROM userinfo WHERE userid = $sellerid";
 $result = mysqli_query($conn,$sqlselleremail);
 $row3 = mysqli_fetch_array($result);
-//$selleremail = $row3['email'];
+$selleremail = $row3['email'];
 $sellername = $row3['username'];
-$selleremail = '463727335@qq.com';
+//$selleremail = '463727335@qq.com';
+echo $selleremail;
 
 $test1 = "Someone else bidded the same item with higher bid than you."; //发送的邮件内容 html写的
 
