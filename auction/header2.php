@@ -33,7 +33,7 @@
     <!-- Navbars -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
       <!-- Navigate to index.php when user click on it -->
-      <a class="navbar-brand" href="index.php">site name</a> 
+      <a class="navbar-brand" href="browse2.php">site name</a> 
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"> 
           <?php
