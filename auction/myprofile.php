@@ -36,7 +36,9 @@ session_start();
 ?>
     <tr>
       <th>Username</th>
-      <th><?php echo $username?></th>
+      <th><?php if($username=="root"|| $username==null){echo "";}
+      else{echo $username;}
+      ?></th>
     </tr>
     <tr>
       <th>Fullname</th>
@@ -53,7 +55,8 @@ session_start();
     <tr>
       <th>Role</th>
       <th><?php if($role==1){echo "buyer";}
-      else{echo "seller";}      
+      else if($role==2){echo "seller";}
+      else{echo "";}      
       ?></th>
     </tr>
   </table>
