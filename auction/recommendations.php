@@ -1,12 +1,10 @@
 <!-- 不符合推荐条件的不要列进来，比如过期的 -->
-
+<?php require("utilities.php")?>
 <?php 
 session_start();
-if($_SESSION['account_type'] == "buyer"){include_once("header1.php");}
-else{include_once("header2.php");}
+if(@$_SESSION['account_type'] == "seller"){include_once("header2.php");}
+else{include_once("header1.php");}
 ?>
-<?php require("utilities.php")?>
-
 <div class="container">
   <h2 class="my-3">Recommendations for you</h2>
   <div class="container mt-5">
@@ -165,7 +163,7 @@ else{include_once("header2.php");}
     #echo $res[0][1]."<br/>";
     #echo $res[1][1]."<br/>";
     #echo $res[2][1]."<br/>";
-
+    
     $userId =  $_SESSION['UserId']; 
     $items=array();
     array_push($items,$res[0][1]);
@@ -178,8 +176,14 @@ else{include_once("header2.php");}
     where  itemid in ($items[0],$items[1],$items[2])";
     #echo $res[1][1]."<br/>";
     $result = mysqli_query($conn, $sql);
-
-    while($row = mysqli_fetch_assoc($result)) 
+    if($userId == null || $userId == ' ')
+           {
+            echo('<div class="text-center">Please Login!</div>');
+            // Redirect to index after 5 seconds
+            header("refresh:5;url=login.php"); 
+           }
+    else{
+        while($row = mysqli_fetch_assoc($result)) 
     {      
         $item_id = $row['itemid'];
         $title = $row['itemname'];
@@ -197,6 +201,8 @@ else{include_once("header2.php");}
         print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
         
         }
+    }
+    
   ?>  
   </ul>
   </div>
