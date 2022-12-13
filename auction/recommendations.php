@@ -1,7 +1,3 @@
-<!-- 不符合推荐条件的不要列进来，比如过期的 -->
-<!-- 修改了数据表（固定要修改的内容） -->
-<!-- 横轴等于userid 纵轴等于itemid 值等于score -->
-<!-- 创建一个新的拍卖物品的时候  就创建recommend中的新一列   当打分时 就按照用户 和 itemid 对值进行修改-->
 <?php require("utilities.php")?>
 <?php 
 session_start();
@@ -165,48 +161,48 @@ else{include_once("header1.php");}
         }
     }
     
-    echo $res[0][1]."<br/>";
-    echo $res[1][1]."<br/>";
-    echo $res[2][1]."<br/>";
+    // echo $res[0][1]."<br/>";
+    // echo $res[1][1]."<br/>";
+    // echo $res[2][1]."<br/>";
     
-    // $userId =  $_SESSION['UserId']; 
-    // $items=array();
-    // array_push($items,$res[0][1]);
-    // array_push($items,$res[1][1]);
-    // array_push($items,$res[2][1]);
+    $userId =  $_SESSION['UserId']; 
+    $items=array();
+    array_push($items,$res[0][1]);
+    array_push($items,$res[1][1]);
+    array_push($items,$res[2][1]);
     
-    // #var_dump($items);
-    // $sql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
-    // FROM bidding
-    // where  itemid in ($items[0],$items[1],$items[2])";
-    // #echo $res[1][1]."<br/>";
-    // $result = mysqli_query($conn, $sql);
-    // if($userId == null || $userId == ' ')
-    //        {
-    //         echo('<div class="text-center">Please Login!</div>');
-    //         // Redirect to index after 5 seconds
-    //         header("refresh:5;url=login.php"); 
-    //        }
-    // else{
-    //     while($row = mysqli_fetch_assoc($result)) 
-    // {      
-    //     $item_id = $row['itemid'];
-    //     $title = $row['itemname'];
-    //     $description = $row['description'];
-    //     $price = $row['highest_price'];
-    //     $end_time = new DateTime($row['endtime']);
-    //     $nums="SELECT count(*)as numbers FROM biddinghistory where itemid=$item_id group by itemid";
-    //     $numsresult=mysqli_query($conn,$nums);
-    //     $row1 = mysqli_fetch_assoc($numsresult);
-    //     if($row1['numbers']==0){
-    //         $num_bids=0;
-    //       }else{
-    //         $num_bids = $row1['numbers'];
-    //       }
-    //     print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
+    #var_dump($items);
+    $sql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
+    FROM bidding
+    where  itemid in ($items[0],$items[1],$items[2])";
+    #echo $res[1][1]."<br/>";
+    $result = mysqli_query($conn, $sql);
+    if($userId == null || $userId == ' ')
+           {
+            echo('<div class="text-center">Please Login!</div>');
+            // Redirect to index after 5 seconds
+            header("refresh:5;url=login.php"); 
+           }
+    else{
+        while($row = mysqli_fetch_assoc($result)) 
+    {      
+        $item_id = $row['itemid'];
+        $title = $row['itemname'];
+        $description = $row['description'];
+        $price = $row['highest_price'];
+        $end_time = new DateTime($row['endtime']);
+        $nums="SELECT count(*)as numbers FROM biddinghistory where itemid=$item_id group by itemid";
+        $numsresult=mysqli_query($conn,$nums);
+        $row1 = mysqli_fetch_assoc($numsresult);
+        if($row1['numbers']==0){
+            $num_bids=0;
+          }else{
+            $num_bids = $row1['numbers'];
+          }
+        print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );
         
-    //     }
-    // }
+        }
+    }
     
   ?>  
   </ul>
