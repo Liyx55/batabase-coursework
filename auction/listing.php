@@ -1,6 +1,8 @@
-<?php include_once("header1.php")?>
 <?php require("utilities.php")?>
-
+<?php 
+session_start();
+if(@$_SESSION['account_type'] == "seller"){include_once("header2.php");}
+else{include_once("header1.php");}?>
 <?php
   // Get info from the URL:
   include_once("database.php");
