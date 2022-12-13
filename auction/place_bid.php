@@ -14,7 +14,11 @@
     $Result=mysqli_query($conn,$query);
     $row=mysqli_fetch_array($Result);
     $Buyer=$row['userId'];//TODO 改成userid就可以正常使用了
-    //$buyerid = $row1['buyer']; //current hightest price buyer's userid
+    $buyerid = $row1['buyer']; //current hightest price buyer's userid
+    //session_start();
+    //$_SESSION['buyerid'] = $buyerid;
+  //echo $buyerid;
+  //echo "1";
 
     if($Buyer==$userId)
      {

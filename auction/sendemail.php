@@ -3,17 +3,25 @@
 <?php
 //$email=$_GET["mail"];
 //$name=$_GET["username"];
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailermaster/src/Exception.php';
+require 'PHPMailermaster/src/PHPMailer.php';
+require 'PHPMailermaster/src/SMTP.php';
 include_once("database.php");
 session_start();
 $Item_id = $_SESSION["Item_Id"];// Get info from ?:
 $userId = $_SESSION['UserId'];
+$buyerid = $_SESSION['buyerid'];
 
 $query = "SELECT * FROM bidding WHERE itemid =$Item_id";
 $Result=mysqli_query($conn,$query);
 $row=mysqli_fetch_array($Result);
-$buyerid = $row['buyer']; //current hightest price buyer's userid
 $sellerid = $row['userid'];
 //$itemname = $row['itemname'];
+echo $buyerid;
+//echo $userId;
 
 
 $sqlbuyeremail = "SELECT * FROM userinfo WHERE userid = $buyerid";
@@ -30,16 +38,9 @@ $selleremail = $row3['email'];
 $sellername = $row3['username'];
 //$selleremail = '463727335@qq.com';
 //echo $selleremail;
+if($buyerid != null){
 
 $test1 = "Someone else bidded the same item with higher bid than you."; //发送的邮件内容 html写的
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'PHPMailermaster/src/Exception.php';
-require 'PHPMailermaster/src/PHPMailer.php';
-require 'PHPMailermaster/src/SMTP.php';
-
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 
     //服务器配置
@@ -65,7 +66,7 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
     $mail->AltBody = 'your equipment does not support this email, please check in google chrome!';
 
     $mail->send();
-
+}
 
 
     $test2 = "New bids on your items.";

@@ -34,7 +34,11 @@
     $current_price = $row['currentprice'];
     $reserve_price = $row['reserveprice'];
     $end_time = new DateTime($row['endtime']);
+    $buyerid = $row['buyer'];
   };
+  session_start();
+  $_SESSION['buyerid'] = $buyerid;
+  //echo $buyerid;
   // TODO: Note: Auctions that have ended may pull a different set of data,
   //       like whether the auction ended in a sale or was cancelled due
   //       to lack of high-enough bids. Or maybe not.
