@@ -165,7 +165,6 @@ else{include_once("header1.php");}
     // echo $res[1][1]."<br/>";
     // echo $res[2][1]."<br/>";
     
-    $userId =  $_SESSION['UserId']; 
     $items=array();
     array_push($items,$res[0][1]);
     array_push($items,$res[1][1]);
@@ -177,7 +176,8 @@ else{include_once("header1.php");}
     where  itemid in ($items[0],$items[1],$items[2])";
     #echo $res[1][1]."<br/>";
     $result = mysqli_query($conn, $sql);
-    if($userId == null || $userId == ' ')
+    $_SESSION['UserName'] = $UserName;
+    if($_SESSION['UserName'] == null)
            {
             echo('<div class="text-center">Please Login!</div>');
             // Redirect to index after 5 seconds

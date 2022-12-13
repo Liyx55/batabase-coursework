@@ -22,7 +22,8 @@ session_start();
   $sqlhistory = "SELECT itemid, MAX(biddingprice) as usermaxbid FROM biddinghistory where userid = $userId GROUP BY itemid";
   $resulthistory = mysqli_query($conn, $sqlhistory);
 
-  if($userId == null || $userId == ' ')
+  $_SESSION['UserName'] = $UserName;
+  if($_SESSION['UserName'] == null)
   {
    echo('<div class="text-center">Please Login!</div>');
    // Redirect to index after 5 seconds
