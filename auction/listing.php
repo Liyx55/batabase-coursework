@@ -9,6 +9,13 @@
   $userId =  $_SESSION['UserId'];
   $_SESSION["Item_Id"] = $item_id;
   //echo $item_id;
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
+  
+  require 'PHPMailermaster/src/Exception.php';
+  require 'PHPMailermaster/src/PHPMailer.php';
+  require 'PHPMailermaster/src/SMTP.php';
+
 
   // TODO: Use item_id to make a query to the database.
   $itemsql = "SELECT * FROM bidding WHERE itemid = $item_id";
@@ -126,6 +133,75 @@
         echo "<br/>The winner is: ".$winner;
         $insertwinner = "UPDATE bidding SET winner = $winner WHERE itemid = $item_id";
         $runinsert = mysqli_query($conn,$insertwinner) or die(mysqli_error($conn));
+        
+        $sqlmaxbidderemail = "SELECT email FROM userinfo WHERE userid = $winner";
+        $resultemail1 = mysqli_query($conn, $sqlmaxbidderemail);
+        $do = mysqli_fetch_assoc($resultemail1);
+        $winneremail = $do['email'];
+
+        $sqlseller = "SELECT userid FROM bidding WHERE itemid = $item_id";
+        $resultemail1 = mysqli_query($conn, $sqlseller);
+        $do1 = mysqli_fetch_assoc($resultemail1);
+        $seller = $do1['userid'];
+
+        $sqlselleremail = "SELECT email FROM userinfo WHERE userid = $seller";
+        $resultemail2 = mysqli_query($conn, $sqlselleremail);
+        $do2 = mysqli_fetch_assoc($resultemail2);
+        $selleremail = $do2['email'];
+
+        $towinner = "Congratulations! You have won the product! The product ID is:".$item_id; //发送的邮件内容 html写的
+        $toseller = "Congratulations! Your product is sold out! Go back to check the winner.";
+
+        
+            $mail = new PHPMailer(true);                              // Passing `true` enables exceptions        
+            
+            $mail->CharSet ="UTF-8";                     
+            $mail->SMTPDebug = 0;                        
+            $mail->isSMTP();                             
+            $mail->Host = 'smtp.gmail.com';                
+            $mail->SMTPAuth = true;                     
+            $mail->Username = 'bbcoursework@gmail.com';                
+            $mail->Password = 'csmxmyedjlybaaao';            
+            $mail->SMTPSecure = 'tls';   
+            $mail->SMTPAutoTLS = false;                
+            $mail->Port = 587;                            
+        
+            $mail->setFrom('bbcoursework@gmail.com', 'dbcwgroup');  
+            $mail->addAddress($winneremail,$winner);  
+            //$mail->addAddress('ellen@example.com');  
+            $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); 
+            //Content
+            $mail->isHTML(true);                                  
+            $mail->Subject = 'Winner Announce';
+            $mail->Body = $towinner;
+            $mail->AltBody = 'your equipment does not support this email, please check in google chrome!';
+        
+            $mail->send();        
+
+            $mail = new PHPMailer(true);                              // Passing `true` enables exceptions        
+            
+            $mail->CharSet ="UTF-8";                     
+            $mail->SMTPDebug = 0;                        
+            $mail->isSMTP();                            
+            $mail->Host = 'smtp.gmail.com';                
+            $mail->SMTPAuth = true;                      
+            $mail->Username = 'bbcoursework@gmail.com';               
+            $mail->Password = 'csmxmyedjlybaaao';             
+            $mail->SMTPSecure = 'tls';   
+            $mail->SMTPAutoTLS = false;                
+            $mail->Port = 587;                            
+        
+            $mail->setFrom('bbcoursework@gmail.com', 'dbcwgroup'); 
+            $mail->addAddress($selleremail,$seller);  
+            //$mail->addAddress('ellen@example.com');  
+            $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); 
+            //Content
+            $mail->isHTML(true);                                  
+            $mail->Subject = 'Winner Announce';
+            $mail->Body = $toseller;
+            $mail->AltBody = 'your equipment does not support this email, please check in google chrome!';
+        
+            $mail->send();
 
       }else{
         echo "<br/>The auction was cancelled due to lack of high-enough bids.";
