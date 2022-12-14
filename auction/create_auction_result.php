@@ -42,6 +42,11 @@ include_once("database.php");
            //var_dump($_FILES);
            $uploaddir='itemphoto/'.$itemid.'.jpg';
            move_uploaded_file($_FILES['photofile']['tmp_name'],$uploaddir);
+         $a = 'item';
+         $b = $a.strval($itemid);
+         $sql = "ALTER TABLE `recommend` ADD COLUMN `$b` INT(11) DEFAULT NULL ";
+         $run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+
            //echo '<img width="80px" height="auto" src="itemphoto/0.jpg" alt="image description"></td>';
                     
            //if(move_uploaded_file($_FILES['photofile']['tmp_name'],$uploaddir) ){
