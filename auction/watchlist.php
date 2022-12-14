@@ -20,8 +20,7 @@ else{include_once("header1.php");}?>
         //AND endtime >= CURRENT_TIMESTAMP
         $swlwatch = "SELECT itemid FROM watchlist where userid = $userId";
         $resultwatch = mysqli_query($conn,$swlwatch);
-        $_SESSION['UserName'] = $UserName;
-        if($_SESSION['UserName'] == null)
+        if($userId == null || $userId == ' ')
         {
         echo('<div class="text-center">Please Login!</div>');
         // Redirect to index after 5 seconds

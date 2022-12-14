@@ -1,3 +1,4 @@
+<!-- 不符合推荐条件的不要列进来，比如过期的 -->
 <?php require("utilities.php")?>
 <?php 
 session_start();
@@ -10,8 +11,6 @@ else{include_once("header1.php");}
   <ul class="list-group">
   <?php
     include 'database.php'; 
-    include 'Synchronize.php';
-
     $sql = "SELECT * FROM recommend";
     $result=mysqli_query($conn,$sql);
     $array = array();
@@ -23,49 +22,38 @@ else{include_once("header1.php");}
 
     $row_num = mysqli_num_rows($result); //行数
     $col_num = mysqli_num_fields($result);
-
-    $search_row = 0;
-    $userId =  $_SESSION['UserId'];
-
-    for($x=0;$x<$row_num;$x++){
-        if($array[$x][0]==$userId){
-            $search_row = $x;
-            break;
-        }
-        else{
-            continue;
-        }
-    } 
-
+    $search_col = 5;
     $cos = array();
     $cos[0] = 0;
+    global $base1;
     $base1 = 0;
 
 
-    function cal_base($search_row,$row_num,$array = array()){
-        global $base1;
+    function cal_base($search_col,$row_num,$array = array()){
         for($x=1;$x<$row_num;$x++){
-            if($array[$search_row][$x] != null){
-                $base1 += $array[$search_row][$x] * $array[$search_row][$x]; 
+            if($array[$search_col][$x] != null){
+                $base1 += $array[$search_col][$x] * $array[$search_col][$x]; 
             }
         }
         $base1 = sqrt($base1);
         return $base1;
     }
 
-    $base1 = cal_base($search_row,$row_num,$array);
+    $base1 = cal_base($search_col,$row_num,$array);
 
-    for($x=0; $x<$row_num;$x++){
+
+
+    for($x=0; $x<$col_num;$x++){
         $sum = 0;
         $base2 = 0;
-        if($x!=$search_row){
+        if($x!=$search_col){
             
-            // echo "Cos(".$array[$search_row][0].",".$array[$x][0].")=";
+            // echo "Cos(".$array[$search_col][0].",".$array[$x][0].")=";
             
-            for($y=1;$y<=$col_num;$y++){
+            for($y=1;$y<9;$y++){
                 //计算分子
-                if($array[$search_row][$y] != null && $array[$x][$y] != null){
-                    $sum += $array[$search_row][$y] * $array[$x][$y];
+                if($array[$search_col][$y] != null && $array[$x][$y] != null){
+                    $sum += $array[$search_col][$y] * $array[$x][$y];
                 }
                 //计算分母2
                 if($array[$x][$y] != null){
@@ -78,11 +66,11 @@ else{include_once("header1.php");}
         }
     }
 
-    for($x=0; $x<$row_num; $x++){
-        if($x!=$search_row){
+    for($x=0; $x<$col_num; $x++){
+        if($x!=$search_col){
             $scores = 0;
             $score_num = 0;
-            for($y=1; $y<=$col_num;$y++){
+            for($y=0; $y<$row_num;$y++){
                 if($array[$x][$y]==NULL){
                     $score_num += 1;
                 }
@@ -94,7 +82,7 @@ else{include_once("header1.php");}
             }
             $scores = $scores / $score_num;
             // echo $scores."<br/>"; 
-            for($y=1; $y<=$col_num;$y++){
+            for($y=0; $y<$row_num;$y++){
                 if($array[$x][$y]==NULL){
                     $array[$x][$y] = $scores;
                     // echo $array[$x][$y]."<br/>"; 
@@ -109,7 +97,7 @@ else{include_once("header1.php");}
     $rec_user1 = array();
     $variable_1 = 0;
     $variable_2 = 0;
-    for ($x= 0;$x<$row_num;$x++){
+    for ($x= 0;$x<$col_num;$x++){
         $variable_1 = $cos[$x];
         $variable_2 = $x;
         if($variable_1>$recommend_user1[0][0]){
@@ -121,7 +109,7 @@ else{include_once("header1.php");}
                 $recommend_user1[0][1] = $recommend_user1[1][1];
                 $recommend_user1[1][0]= $variable_1;
                 $recommend_user1[1][1]= $variable_2; 
-                if($variable_1 >$recommend_user1[2][0]){
+                if($variable_1 >>$recommend_user1[2][0]){
                     $recommend_user1[1][0] = $recommend_user1[2][0];
                     $recommend_user1[1][1] = $recommend_user1[2][1];
                     $recommend_user1[2][0]= $variable_1;
@@ -134,88 +122,61 @@ else{include_once("header1.php");}
     $x1 = $recommend_user1[0][1];
     $x2 = $recommend_user1[1][1];
     $x3 = $recommend_user1[2][1];
-    $Rec = array();//推荐数组
-    //计算平均加权
-    for($y=1;$y<=$col_num;$y++){
-        if($array[$search_row][$y]!=NULL){
+    $Rec = array();
+    for($y=1;$y<=$row_num;$y++){
+        if($array[$search_col][$y]!=NULL){
             $num = $cos[$recommend_user1[0][1]]+$cos[$recommend_user1[1][1]]+$cos[$recommend_user1[2][1]];
             $sum = $recommend_user1[0][0]*$array[$x1][$y]+$recommend_user1[1][0]*$array[$x2][$y]+$recommend_user1[2][0]*$array[$x3][$y];
-            // recommend_user 权重 array 评分
             $Rec[$y][0]=$sum/$num;
             $Rec[$y][1]= $y;
 
         }
     }
 
-
-
-
-// choose three products--sort
+// choose three products
     global $res;
     $res = array();
-    $middle_var1 = 0;
-    $middle_var2 = 0;
-    for ($x= 1;$x<=$col_num;$x++){
-        $middle_var1 = $Rec[$x][0];
-        $middle_var2 = $Rec[$x][1];
-        if($middle_var1>$res[0][0]){
+    $b = 0;
+    $c = 0;
+    for ($x= 1;$x<=$row_num;$x++){
+        $b = $Rec[$x][0];
+        $c = $Rec[$x][1];
+        if($b>$res[0][0]){
             // 00smallest
-            $res[0][0] = $middle_var1;
-            $res[0][1] = $middle_var2;
-            if($middle_var1 >$res[1][0]){
+            $res[0][0] = $b;
+            $res[0][1] = $c;
+            if($b >$res[1][0]){
                 $res[0][0] = $res[1][0];
                 $res[0][1] = $res[1][1];
-                $res[1][0]= $middle_var1;
-                $res[1][1]= $middle_var2; 
-                if($middle_var1 >$res[2][0]){
+                $res[1][0]= $b;
+                $res[1][1]= $c; 
+                if($b >>$res[2][0]){
                     $res[1][0] = $res[2][0];
                     $res[1][1] = $res[2][1];
-                    $res[2][0]= $middle_var1;
-                    $res[2][1]= $middle_var2; 
-                    if($middle_var1 >$res[3][0]){
-                        $res[2][0] = $res[3][0];
-                        $res[2][1] = $res[3][1];
-                        $res[3][0]= $middle_var1;
-                        $res[3][1]= $middle_var2;
-                        if($middle_var1 >$res[4][0]){
-                            $res[3][0] = $res[4][0];
-                            $res[3][1] = $res[4][1];
-                            $res[4][0]= $middle_var1;
-                            $res[4][1]= $middle_var2;
-                            // if($middle_var1 >$res[5][0]){
-                            //     $res[4][0] = $res[5][0];
-                            //     $res[4][1] = $res[5][1];
-                            //     $res[5][0]= $middle_var1;
-                            //     $res[5][1]= $middle_var2;
-                            // }
-                        }
-                    }
+                    $res[2][0]= $b;
+                    $res[2][1]= $c; 
                 }
             }
         }
     }
+    
     #echo $res[0][1]."<br/>";
     #echo $res[1][1]."<br/>";
     #echo $res[2][1]."<br/>";
-    #echo $res[3][1]."<br/>";
-    #echo $res[4][1]."<br/>";
-
     
+    $userId =  $_SESSION['UserId']; 
     $items=array();
     array_push($items,$res[0][1]);
     array_push($items,$res[1][1]);
     array_push($items,$res[2][1]);
-    array_push($items,$res[3][1]);
-    array_push($items,$res[4][1]);
     
     #var_dump($items);
     $sql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum
     FROM bidding
-    where  itemid in ($items[0],$items[1],$items[2],$items[3],$items[4])";
+    where  itemid in ($items[0],$items[1],$items[2])";
     #echo $res[1][1]."<br/>";
     $result = mysqli_query($conn, $sql);
-    $_SESSION['UserName'] = $UserName;
-    if($_SESSION['UserName'] == null)
+    if($userId == null || $userId == ' ')
            {
             echo('<div class="text-center">Please Login!</div>');
             // Redirect to index after 5 seconds

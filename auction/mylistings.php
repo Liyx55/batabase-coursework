@@ -31,8 +31,7 @@ $row = mysqli_fetch_assoc($result);
 //echo $test;
 //echo "1";
 
-          $_SESSION['UserName'] = $UserName;
-          if($_SESSION['UserName'] == null)
+           if($userId == null || $userId == ' ')
            {
             echo('<div class="text-center">Please Login!</div>');
             // Redirect to index after 5 seconds
