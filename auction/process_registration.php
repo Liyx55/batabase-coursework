@@ -37,6 +37,7 @@
         $sql = "INSERT INTO `userinfo`(`username`, `fullname`, `email`,`password`,`jointime`,`role`) 
         VALUES ('$UserName','$Fullname','$email','$password',NOW(),'1')";
         $run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+        $userId =  $_SESSION['UserId']; 
         $_SESSION['logged_in'] = true;
         $_SESSION['UserName'] = $UserName;
         $_SESSION['Email'] = $email; //Set session variable Email as user's email address 
@@ -48,6 +49,7 @@
         $sql = "INSERT INTO `userinfo`(`username`, `fullname`, `email`,`password`,`jointime`,`role`) 
         VALUES ('$UserName','$Fullname','$email','$password',NOW(),'2')";
         $run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+        $userId =  $_SESSION['UserId']; 
         $_SESSION['logged_in'] = true;
         $_SESSION['UserName'] = $UserName;
         $_SESSION['Email'] = $email; //Set session variable Email as user's email address 

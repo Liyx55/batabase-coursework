@@ -47,7 +47,7 @@ session_start();
                }       
           }
           else{
-            echo 'You have not bid any products yet.';//TODO 没创建过bids的用户见面上并打印不出来这个
+            echo 'You have not bid any products yet.';
            }
        
 

@@ -18,10 +18,10 @@ else{include_once("header1.php");}
     $neighbour_num_recommend = 3;
     while($row=mysqli_fetch_array($result,MYSQLI_NUM))
     {
-        $array[]=$row;//$array[][]是一个二维数组
+        $array[]=$row;
     } 
 
-    $row_num = mysqli_num_rows($result); //行数
+    $row_num = mysqli_num_rows($result); 
     $col_num = mysqli_num_fields($result);
 
     $search_row = 0;
@@ -63,11 +63,11 @@ else{include_once("header1.php");}
             // echo "Cos(".$array[$search_row][0].",".$array[$x][0].")=";
             
             for($y=1;$y<=$col_num;$y++){
-                //计算分子
+                
                 if($array[$search_row][$y] != null && $array[$x][$y] != null){
                     $sum += $array[$search_row][$y] * $array[$x][$y];
                 }
-                //计算分母2
+               
                 if($array[$x][$y] != null){
                     $base2 = cal_base($x,$row_num,$array);
                 }			
@@ -134,13 +134,13 @@ else{include_once("header1.php");}
     $x1 = $recommend_user1[0][1];
     $x2 = $recommend_user1[1][1];
     $x3 = $recommend_user1[2][1];
-    $Rec = array();//推荐数组
-    //计算平均加权
+    $Rec = array();
+    
     for($y=1;$y<=$col_num;$y++){
         if($array[$search_row][$y]!=NULL){
             $num = $cos[$recommend_user1[0][1]]+$cos[$recommend_user1[1][1]]+$cos[$recommend_user1[2][1]];
             $sum = $recommend_user1[0][0]*$array[$x1][$y]+$recommend_user1[1][0]*$array[$x2][$y]+$recommend_user1[2][0]*$array[$x3][$y];
-            // recommend_user 权重 array 评分
+           
             $Rec[$y][0]=$sum/$num;
             $Rec[$y][1]= $y;
 
@@ -194,19 +194,20 @@ else{include_once("header1.php");}
             }
         }
     }
-    #echo $res[0][1]."<br/>";
-    #echo $res[1][1]."<br/>";
-    #echo $res[2][1]."<br/>";
-    #echo $res[3][1]."<br/>";
-    #echo $res[4][1]."<br/>";
+    // echo $res[0][1]."<br/>";
+    // echo $res[1][1]."<br/>";
+    // echo $res[2][1]."<br/>";
+    // echo $res[3][1]."<br/>";
+    // echo $res[4][1]."<br/>";
 
     
     $items=array();
-    array_push($items,$res[0][1]);
-    array_push($items,$res[1][1]);
-    array_push($items,$res[2][1]);
-    array_push($items,$res[3][1]);
-    array_push($items,$res[4][1]);
+    //since our itemid starts from 6
+    array_push($items,$res[0][1])+6;
+    array_push($items,$res[1][1])+6;
+    array_push($items,$res[2][1])+6;
+    array_push($items,$res[3][1])+6;
+    array_push($items,$res[4][1])+6;
     
     #var_dump($items);
     $sql = "SELECT itemid, itemname, category, startingprice, reserveprice, currentprice  as highest_price, endtime,description,userid, buyer, viewnum

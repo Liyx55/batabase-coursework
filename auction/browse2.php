@@ -21,12 +21,12 @@
             <div class="form-group">
               <select class="form-control" name="category">
                 <option value="" disabled selected>Select your category</option>
-                <option value="appliances">bedroom</option>
-                <option value="beauty">living Room</option>
-                <option value="colthing&accessories">kitchen</option>
-                <option value="grocery&food">bathroom</option>
-                <option value="home&kitchen">study</option>
-                <option value="others">appliances</option>
+                <option value="appliances">appliances</option>
+                <option value="beauty">beauty</option>
+                <option value="colthing&accessories">colthing&accessories</option>
+                <option value="grocery&food">grocery&food</option>
+                <option value="home&kitchen">home&kitchen</option>
+                <option value="others">others</option>
               </select>
             </div>
           </div>
@@ -81,9 +81,6 @@
             }else{
               $num_bids = $row1['numbers'];
             }
-            /*
-            出价次数现在用的是浏览次数 这个后面要修改
-            */
             // Print out item details using the print_listing_li function defined in utilities.php
             print_listing_li($item_id, $title, $description, $price ,$num_bids,$end_time );/* $image,$time_remaining 如果加上需要修改uitilities.php函数*/
           }

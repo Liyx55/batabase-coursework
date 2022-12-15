@@ -143,7 +143,7 @@ else{include_once("header1.php");}?>
         $sqlmaxbidderemail = "SELECT email FROM userinfo WHERE userid = $winner";
         $resultemail1 = mysqli_query($conn, $sqlmaxbidderemail);
         $do = mysqli_fetch_assoc($resultemail1);
-        $winneremail = $do['email'];
+          $winneremail = $do['email'];
 
         $sqlseller = "SELECT userid FROM bidding WHERE itemid = $item_id";
         $resultemail1 = mysqli_query($conn, $sqlseller);
@@ -155,7 +155,7 @@ else{include_once("header1.php");}?>
         $do2 = mysqli_fetch_assoc($resultemail2);
         $selleremail = $do2['email'];
 
-        $towinner = "Congratulations! You have won the product! The product ID is:".$item_id; //发送的邮件内容 html写的
+        $towinner = "Congratulations! You have won the product! The product ID is:".$item_id; 
         $toseller = "Congratulations! Your product is sold out! Go back to check the winner.";
 
         

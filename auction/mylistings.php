@@ -22,11 +22,10 @@ session_start();
 
   #$_SESSION['logged_in'] = true;
   $userId =  $_SESSION['UserId'];
-  //TODO register之后没有办法拿到userid
     // Check user's credentials (cookie/session).
   $sql = "SELECT * FROM bidding where userid = $userId;";  
   $result = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($result);
+  $row = mysqli_fetch_assoc($result);
 //$test = $row['itemname'];
 //echo $test;
 //echo "1";

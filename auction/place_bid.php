@@ -13,7 +13,7 @@
     $query = "SELECT * FROM bidding WHERE userid ='$userId'";
     $Result=mysqli_query($conn,$query);
     $row=mysqli_fetch_array($Result);
-    $Buyer=$row['userId'];//TODO 改成userid就可以正常使用了
+    $Buyer=$row['userid'];
     $buyerid = $row1['buyer']; //current hightest price buyer's userid
     //session_start();
     //$_SESSION['buyerid'] = $buyerid;

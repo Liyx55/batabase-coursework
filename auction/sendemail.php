@@ -40,27 +40,27 @@ $sellername = $row3['username'];
 //echo $selleremail;
 if($buyerid != null){
 
-$test1 = "Someone else bidded the same item with higher bid than you."; //发送的邮件内容 html写的
+$test1 = "Someone else bidded the same item with higher bid than you.";
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 
     //服务器配置
-    $mail->CharSet ="UTF-8";                     //设定邮件编码
-    $mail->SMTPDebug = 0;                        // 调试模式输出
-    $mail->isSMTP();                             // 使用SMTP
-    $mail->Host = 'smtp.gmail.com';                // SMTP服务器
-    $mail->SMTPAuth = true;                      // 允许 SMTP 认证
-    $mail->Username = 'bbcoursework@gmail.com';                // SMTP 用户名  发件人的邮箱 即邮箱的用户名
-    $mail->Password = 'csmxmyedjlybaaao';             // SMTP 密码  部分邮箱是授权码(例如163邮箱)
+    $mail->CharSet ="UTF-8";                     
+    $mail->SMTPDebug = 0;                        
+    $mail->isSMTP();                             
+    $mail->Host = 'smtp.gmail.com';               
+    $mail->SMTPAuth = true;                     
+    $mail->Username = 'bbcoursework@gmail.com';                
+    $mail->Password = 'csmxmyedjlybaaao';            
     $mail->SMTPSecure = 'tls';   
-    $mail->SMTPAutoTLS = false;                 // 允许 TLS 或者ssl协议
-    $mail->Port = 587;                            // 服务器端口 25 或者465 具体要看邮箱服务器支持
+    $mail->SMTPAutoTLS = false;            
+    $mail->Port = 587;                            
 
-    $mail->setFrom('bbcoursework@gmail.com', 'dbcwgroup');  //发件人
-    $mail->addAddress($buyeremail,$buyername);  // 收件人
-    //$mail->addAddress('ellen@example.com');  // 可添加多个收件人
-    $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); //回复的时候回复给哪个邮箱 建议和发件人一致
+    $mail->setFrom('bbcoursework@gmail.com', 'dbcwgroup'); 
+    $mail->addAddress($buyeremail,$buyername); 
+    //$mail->addAddress('ellen@example.com'); 
+    $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup');
     //Content
-    $mail->isHTML(true);                                  // 是否以HTML文档格式发送  发送后客户端可直接显示对应HTML内容
+    $mail->isHTML(true);                                
     $mail->Subject = 'Outbid';
     $mail->Body = $test1;
     $mail->AltBody = 'your equipment does not support this email, please check in google chrome!';
@@ -73,23 +73,23 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 
     //服务器配置
-    $mail->CharSet ="UTF-8";                     //设定邮件编码
-    $mail->SMTPDebug = 0;                        // 调试模式输出
-    $mail->isSMTP();                             // 使用SMTP
-    $mail->Host = 'smtp.gmail.com';                // SMTP服务器
-    $mail->SMTPAuth = true;                      // 允许 SMTP 认证
-    $mail->Username = 'bbcoursework@gmail.com';                // SMTP 用户名  发件人的邮箱 即邮箱的用户名
-    $mail->Password = 'csmxmyedjlybaaao';             // SMTP 密码  部分邮箱是授权码(例如163邮箱)
+    $mail->CharSet ="UTF-8";                     
+    $mail->SMTPDebug = 0;                       
+    $mail->isSMTP();                             
+    $mail->Host = 'smtp.gmail.com';             
+    $mail->SMTPAuth = true;                     
+    $mail->Username = 'bbcoursework@gmail.com';             
+    $mail->Password = 'csmxmyedjlybaaao';          
     $mail->SMTPSecure = 'tls';   
-    $mail->SMTPAutoTLS = false;                 // 允许 TLS 或者ssl协议
-    $mail->Port = 587;                            // 服务器端口 25 或者465 具体要看邮箱服务器支持
+    $mail->SMTPAutoTLS = false;                
+    $mail->Port = 587;                           
 
-    $mail->setFrom('bbcoursework@gmail.com', 'dbcwgroup');  //发件人
-    $mail->addAddress($selleremail,$sellername);  // 收件人
-    //$mail->addAddress('ellen@example.com');  // 可添加多个收件人
-    $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); //回复的时候回复给哪个邮箱 建议和发件人一致
+    $mail->setFrom('bbcoursework@gmail.com', 'dbcwgroup'); 
+    $mail->addAddress($selleremail,$sellername);  
+    //$mail->addAddress('ellen@example.com');  
+    $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); 
     //Content
-    $mail->isHTML(true);                                  // 是否以HTML文档格式发送  发送后客户端可直接显示对应HTML内容
+    $mail->isHTML(true);                                 
     $mail->Subject = 'New bid';
     $mail->Body = $test2;
     $mail->AltBody = 'your equipment does not support this email, please check in google chrome!';
@@ -113,23 +113,22 @@ while($row1 = mysqli_fetch_assoc($resultwemail)){
         $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
     
         //服务器配置
-        $mail->CharSet ="UTF-8";                     //设定邮件编码
-        $mail->SMTPDebug = 0;                        // 调试模式输出
-        $mail->isSMTP();                             // 使用SMTP
-        $mail->Host = 'smtp.gmail.com';                // SMTP服务器
-        $mail->SMTPAuth = true;                      // 允许 SMTP 认证
-        $mail->Username = 'bbcoursework@gmail.com';                // SMTP 用户名  发件人的邮箱 即邮箱的用户名
-        $mail->Password = 'csmxmyedjlybaaao';             // SMTP 密码  部分邮箱是授权码(例如163邮箱)
+        $mail->CharSet ="UTF-8";                  
+        $mail->SMTPDebug = 0;                        
+        $mail->isSMTP();                          
+        $mail->Host = 'smtp.gmail.com';               
+        $mail->SMTPAuth = true;                    
+        $mail->Username = 'bbcoursework@gmail.com';               
+        $mail->Password = 'csmxmyedjlybaaao';            
         $mail->SMTPSecure = 'tls';   
-        $mail->SMTPAutoTLS = false;                 // 允许 TLS 或者ssl协议
-        $mail->Port = 587;                            // 服务器端口 25 或者465 具体要看邮箱服务器支持
-    
-        $mail->setFrom('bbcoursework@gmail.com', 'dbcwgroup');  //发件人
-        $mail->addAddress($watchemail,$watchname);  // 收件人
-        //$mail->addAddress('ellen@example.com');  // 可添加多个收件人
-        $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); //回复的时候回复给哪个邮箱 建议和发件人一致
+        $mail->SMTPAutoTLS = false;                 
+        $mail->Port = 587;                           
+        $mail->setFrom('bbcoursework@gmail.com', 'dbcwgroup');  
+        $mail->addAddress($watchemail,$watchname);  
+        //$mail->addAddress('ellen@example.com');  
+        $mail->addReplyTo('bbcoursework@gmail.com', 'dbcwgroup'); 
         //Content
-        $mail->isHTML(true);                                  // 是否以HTML文档格式发送  发送后客户端可直接显示对应HTML内容
+        $mail->isHTML(true);                                  
         $mail->Subject = 'New bid';
         $mail->Body = $test3;
         $mail->AltBody = 'your equipment does not support this email, please check in google chrome!';
